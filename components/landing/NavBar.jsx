@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { IoIosLogIn } from "react-icons/io";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 const NavBar = ({ dictionary }) => {
   const Icon = IoIosLogIn;
@@ -112,6 +113,7 @@ const NavBar = ({ dictionary }) => {
               Contact us
             </Link>
           </div>
+          <LanguageSwitcher />
           <Link
             href="/login"
             className="text-gray-200 transition flex flex-row items-center gap-1 hover:scale-110 hover:text-primary"

@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const LoginPage = () => {
+const LoginPage = ({ params: { lang } }) => {
   return (
     <div className="contain py-16">
       <div className="max-w-lg mx-auto shadow px-6 py-7 rounded overflow-hidden">
@@ -85,7 +85,7 @@ const LoginPage = () => {
 
         <p className="mt-4 text-center text-gray-600">
           {`Don't`} have account?{" "}
-          <Link href="/register" className="text-primary">
+          <Link href={`/${lang}/register`} className="text-primary">
             Register now
           </Link>
         </p>
