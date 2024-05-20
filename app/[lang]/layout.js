@@ -21,15 +21,13 @@ export default async function RootLayout({ params: { lang }, children }) {
   const dictionary = await getDictionary(lang);
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        <NavBar dictionary={dictionary} />
-        <BreadCrumb />
-        {children}
-        <Footer />
-        <CopyRightSection />
-      </body>
-    </html>
+    <>
+      <Header />
+      <NavBar dictionary={dictionary} />
+      <BreadCrumb />
+      {children}
+      <Footer />
+      <CopyRightSection />
+    </>
   );
 }
