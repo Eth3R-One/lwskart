@@ -1,4 +1,27 @@
 {
     "home": "Home",
-    "shop": "Shop"
+    "shop": "Shop",
+    "search": "Search",
+    "account": "Account",
+    "allCategories": "All Categories",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "login": "Login",
+    "bannerHeading": "Best Collection For",
+    "bannerTitle": "Home Decoration",
+    "lorem": "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam accusantium perspiciatis, sapiente magni eos dolorum ex quos dolores odio",
+    "shopNow": "Shop Now",
+    "freeShipping": "Free Shipping",
+    "freeShippingText": "Order over $200",
+    "moneyReturn": "Money Returns",
+    "moneyReturnText": "30 days money returs",
+    "support": "24/7 Support",
+    "supportText": "Customer support",
+    "shopByCategory": "Shop By Category",
+    "topNewArrival": "Top New Arrival",
+    "trending": "TRENDING PRODUCTS",
+    "personalProfile": "Personal Profile",
+    "edit": "Edit",
+    "shipAddress": "Shipping address",
+    "billAddress": "Billing address"
 }

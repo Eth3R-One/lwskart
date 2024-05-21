@@ -22,7 +22,7 @@ export default async function RootLayout({ params: { lang }, children }) {
 
   return (
     <>
-      <Header />
+      <Header dictionary={dictionary} />
       <NavBar dictionary={dictionary} />
       <BreadCrumb />
       {children}

@@ -1,38 +1,51 @@
 import RelatedProducts from "@/components/landing/products/RelatedProducts";
+import Image from "next/image";
 
 const ProductPage = () => {
   return (
     <>
-      <div className="container grid grid-cols-2 gap-6">
+      <div className="container grid grid-cols-2 gap-6 ">
         <div>
-          <img
-            src="../assets/images/products/product1.jpg"
+          <Image
+            height={1280}
+            width={1280}
+            src="/assets/images/products/product1.jpg"
             alt="product"
-            className="w-full"
+            className="w-full border border-primary rounded-lg"
           />
           <div className="grid grid-cols-5 gap-4 mt-4">
-            <img
-              src="../assets/images/products/product2.jpg"
+            <Image
+              height={1280}
+              width={1280}
+              src="/assets/images/products/product2.jpg"
               alt="product2"
-              className="w-full cursor-pointer border border-primary"
+              className="w-full cursor-pointer border border-primary rounded-lg"
             />
-            <img
-              src="../assets/images/products/product3.jpg"
-              alt="product2"
-              className="w-full cursor-pointer border"
-            />
-            <img
-              src="../assets/images/products/product4.jpg"
-              alt="product2"
-              className="w-full cursor-pointer border"
-            />
-            <img
-              src="../assets/images/products/product5.jpg"
+            <Image
+              height={1280}
+              width={1280}
+              src="/assets/images/products/product3.jpg"
               alt="product2"
               className="w-full cursor-pointer border"
             />
-            <img
-              src="../assets/images/products/product6.jpg"
+            <Image
+              height={1280}
+              width={1280}
+              src="/assets/images/products/product4.jpg"
+              alt="product2"
+              className="w-full cursor-pointer border"
+            />
+            <Image
+              height={1280}
+              width={1280}
+              src="/assets/images/products/product5.jpg"
+              alt="product2"
+              className="w-full cursor-pointer border"
+            />
+            <Image
+              height={1280}
+              width={1280}
+              src="/assets/images/products/product6.jpg"
               alt="product2"
               className="w-full cursor-pointer border"
             />

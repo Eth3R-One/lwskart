@@ -5,18 +5,18 @@ import FeaturesSection from "@/components/landing/FeaturesSection";
 import TrendingProducts from "@/components/landing/products/TrendingProducts";
 import TopNewArrivalSection from "@/components/landing/products/TopNewArrivalSection";
 import Image from "next/image";
-import { getDictionary } from "../dictionaries";
+import { getDictionary } from "./dictionaries";
 
 export default async function Home({ params: { lang } }) {
   const dictionary = await getDictionary(lang);
   return (
     <>
-      <BannerSection />
-      <FeaturesSection />
-      <CategoriesList />
-      <TopNewArrivalSection />
+      <BannerSection dictionary={dictionary} />
+      <FeaturesSection dictionary={dictionary} />
+      <CategoriesList dictionary={dictionary} />
+      <TopNewArrivalSection dictionary={dictionary} />
       <AdsSection />
-      <TrendingProducts />
+      <TrendingProducts dictionary={dictionary} />
     </>
   );
 }

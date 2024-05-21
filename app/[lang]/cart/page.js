@@ -1,14 +1,18 @@
+import Image from "next/image";
+
 const CartPage = () => {
   return (
     <div className="container gap-6 pt-4 pb-16">
       <div className="text-3xl object-center text-red-500">{`NEED TO CHANGE THE UI`}</div>
       <div className="mx-auto space-y-4 max-w-6xl">
         <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
-          <div className="w-28">
-            <img
-              src="../assets/images/products/product6.jpg"
+          <div className="w-28 hover:scale-110">
+            <Image
+              src="/assets/images/products/product6.jpg"
               alt="product 6"
-              className="w-full"
+              className="w-full rounded-xl"
+              height={1080}
+              width={1080}
             />
           </div>
           <div className="w-1/3">

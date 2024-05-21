@@ -1,25 +1,18 @@
-const AccountPage = () => {
+import { getDictionary } from "../dictionaries";
+
+const AccountPage = async ({ params: { lang } }) => {
+  const dictionary = await getDictionary(lang);
   return (
     <>
-      <div className="container py-4 flex items-center gap-3">
-        <a href="../index.html" className="text-primary text-base">
-          <i className="fa-solid fa-house"></i>
-        </a>
-        <span className="text-sm text-gray-400">
-          <i className="fa-solid fa-chevron-right"></i>
-        </span>
-        <p className="text-gray-600 font-medium">Account</p>
-      </div>
-
       <div className="container  items-start gap-6 pt-4 pb-16">
         <div className=" grid grid-cols-3 gap-4 mx-auto max-w-5xl">
           <div className="shadow rounded bg-white px-4 pt-6 pb-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-medium text-gray-800 text-lg">
-                Personal Profile
+                {dictionary.personalProfile}
               </h3>
               <a href="#" className="text-primary">
-                Edit
+                {dictionary.edit}
               </a>
             </div>
             <div className="space-y-1">
@@ -32,10 +25,10 @@ const AccountPage = () => {
           <div className="shadow rounded bg-white px-4 pt-6 pb-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-medium text-gray-800 text-lg">
-                Shipping address
+                {dictionary.shipAddress}
               </h3>
               <a href="#" className="text-primary">
-                Edit
+                {dictionary.edit}
               </a>
             </div>
             <div className="space-y-1">
@@ -49,10 +42,10 @@ const AccountPage = () => {
           <div className="shadow rounded bg-white px-4 pt-6 pb-8">
             <div className="flex items-center justify-between mb-4">
               <h3 className="font-medium text-gray-800 text-lg">
-                Billing address
+                {dictionary.billAddress}
               </h3>
               <a href="#" className="text-primary">
-                Edit
+                {dictionary.edit}
               </a>
             </div>
             <div className="space-y-1">
