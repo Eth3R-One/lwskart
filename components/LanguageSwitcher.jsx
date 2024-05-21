@@ -42,6 +42,8 @@ const LanguageSwitcher = () => {
       <button
         className="flex items-center gap-2"
         onClick={() => setShowManu(!showManu)}
+        onMouseEnter={() => setShowManu(!showManu)}
+        // onMouseLeave={() => setShowManu(!showManu)}
       >
         <Image
           className="max-w-8"
@@ -53,13 +55,13 @@ const LanguageSwitcher = () => {
         {selectedLanguage.language}
       </button>
       {showManu && (
-        <div className="absolute right-0 top-full mt-2 w-40 rounded-md  p-2 z-10 shadow-lg">
-          <ul>
+        <div className="absolute right-0 top-full bg-gray-200  mt-2 w-40 rounded-md  p-2 z-10 shadow-lg">
+          <ul onMouseLeave={() => setShowManu(false)}>
             {languages.map((entry) => (
               <li
                 key={entry.code}
                 onClick={() => handleLanguageChange(entry.code)}
-                className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-500"
+                className="flex items-center gap-2 p-2 rounded-md cursor-pointer hover:bg-gray-500 hover:text-white hover:scale-125"
               >
                 <Image
                   className="max-w-8"
