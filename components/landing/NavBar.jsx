@@ -2,7 +2,7 @@ import { IoIosLogIn } from "react-icons/io";
 import LanguageSwitcher from "../LanguageSwitcher";
 import CustomLink from "@/components/CustomLink";
 
-const NavBar = ({ dictionary }) => {
+const NavBar = ({ dictionary, showLogin }) => {
   const Icon = IoIosLogIn;
   return (
     <nav className="bg-gray-800">
@@ -115,16 +115,16 @@ const NavBar = ({ dictionary }) => {
               {dictionary.contactUs}
             </CustomLink>
           </div>
-          {/* <div className="flex flex-row"> */}
-          <CustomLink
-            href="/login"
-            className="text-gray-200 transition flex flex-row items-center gap-1 hover:scale-110 hover:text-primary"
-          >
-            {dictionary.login} <Icon />
-          </CustomLink>
+          {showLogin && (
+            <CustomLink
+              href="/login"
+              className="text-gray-200 transition flex flex-row items-center gap-1 hover:scale-110 hover:text-primary"
+            >
+              {dictionary.login} <Icon />
+            </CustomLink>
+          )}
         </div>
       </div>
-      {/* </div> */}
     </nav>
   );
 };
