@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google";
-import "../globals.css";
+import "../../globals.css";
 import "@ionic/react/css/core.css";
 
 import Header from "@/components/landing/Header";
@@ -7,7 +7,7 @@ import NavBar from "@/components/landing/NavBar";
 import Footer from "@/components/landing/Footer";
 import CopyRightSection from "@/components/landing/CopyRightSection";
 import BreadCrumb from "@/components/landing/BreadCrumb";
-import { getDictionary } from "./dictionaries";
+import { getDictionary } from "../(home)/dictionaries";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +23,7 @@ export default async function RootLayout({ params: { lang }, children }) {
   return (
     <>
       <Header dictionary={dictionary} />
-      <NavBar dictionary={dictionary} />
+      <NavBar dictionary={dictionary} showLogin={false} />
       <BreadCrumb />
       {children}
       <Footer />
