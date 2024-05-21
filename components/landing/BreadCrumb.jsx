@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 import { HiHome } from "react-icons/hi";
+import CustomLink from "../CustomLink";
 
 const BreadCrumb = () => {
   const pathname = usePathname();
@@ -17,9 +18,9 @@ const BreadCrumb = () => {
         <i className="fa-solid fa-chevron-right"></i>
       </span>
       <div className="text-gray-600 font-medium flex flex-row items-center">
-        <Link href={"/"} className="hover:scale-105">
+        <CustomLink href={"/"} className="hover:scale-105">
           <HiHome />{" "}
-        </Link>
+        </CustomLink>
         {pathname
           .split("/")
           .splice(2)

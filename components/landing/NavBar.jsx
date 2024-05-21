@@ -1,6 +1,6 @@
-import Link from "next/link";
 import { IoIosLogIn } from "react-icons/io";
 import LanguageSwitcher from "../LanguageSwitcher";
+import CustomLink from "@/components/CustomLink";
 
 const NavBar = ({ dictionary }) => {
   const Icon = IoIosLogIn;
@@ -11,7 +11,9 @@ const NavBar = ({ dictionary }) => {
           <span className="text-white">
             <i className="fa-solid fa-bars"></i>
           </span>
-          <span className="capitalize ml-2 text-white ">All Categories</span>
+          <span className="capitalize ml-2 text-white ">
+            {dictionary.allCategories}
+          </span>
 
           <div
             className="absolute left-0 top-full bg-white shadow-md py-3 divide-y divide-gray-300 divide-dashed opacity-0 group-hover:opacity-100 transition duration-300 invisible group-hover:visible w-[600px]"
@@ -88,40 +90,41 @@ const NavBar = ({ dictionary }) => {
 
         <div className="flex items-center justify-between flex-grow md:pl-12 py-5">
           <div className="flex items-center space-x-6 capitalize ">
-            <Link
+            <CustomLink
               href="/"
               className="text-gray-200 transition hover:text-primary"
             >
               {dictionary.home}
-            </Link>
-            <Link
+            </CustomLink>
+            <CustomLink
               href="/shop"
               className="text-gray-200 hover:text-primary transition"
             >
               {dictionary.shop}
-            </Link>
-            <Link
+            </CustomLink>
+            <CustomLink
               href="/about-us"
               className="text-gray-200 hover:text-primary transition"
             >
-              About us
-            </Link>
-            <Link
+              {dictionary.aboutUs}
+            </CustomLink>
+            <CustomLink
               href="/contact-us"
               className="text-gray-200 hover:text-primary transition"
             >
-              Contact us
-            </Link>
+              {dictionary.contactUs}
+            </CustomLink>
           </div>
-          <LanguageSwitcher />
-          <Link
+          {/* <div className="flex flex-row"> */}
+          <CustomLink
             href="/login"
             className="text-gray-200 transition flex flex-row items-center gap-1 hover:scale-110 hover:text-primary"
           >
-            Login <Icon />
-          </Link>
+            {dictionary.login} <Icon />
+          </CustomLink>
         </div>
       </div>
+      {/* </div> */}
     </nav>
   );
 };

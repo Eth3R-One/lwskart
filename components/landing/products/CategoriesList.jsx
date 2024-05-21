@@ -1,8 +1,8 @@
-const CategoriesList = () => {
+const CategoriesList = ({ dictionary }) => {
   return (
     <div className="container py-16">
       <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
-        shop by category
+        {dictionary.shopByCategory}
       </h2>
       <div className="grid grid-cols-3 gap-3">
         <div className="relative rounded-md overflow-hidden group">
@@ -42,6 +42,19 @@ const CategoriesList = () => {
             className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
           >
             Outdoor
+          </a>
+        </div>
+        <div className="relative rounded-md overflow-hidden group">
+          <img
+            src="assets/images/category/category-4.jpg"
+            alt="category 1"
+            className="w-full"
+          />
+          <a
+            href="#"
+            className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
+          >
+            Sofa
           </a>
         </div>
         <div className="relative rounded-md overflow-hidden group">
