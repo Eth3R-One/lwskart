@@ -1,0 +1,50 @@
+[
+    {
+        "_id": {
+            "$oid": "664a50f35e14406f7af9f872"
+        },
+        "category_name": "smartphones",
+        "thumbnail": "https://cdn.dummyjson.com/product-images/1/4.jpg",
+        "created_at": "2024-05-20T16:37:48.244Z"
+    },
+    {
+        "_id": {
+            "$oid": "664a50f35e14406f7af9f873"
+        },
+        "category_name": "laptops",
+        "thumbnail": "https://cdn.dummyjson.com/product-images/6/thumbnail.png",
+        "created_at": "2024-05-20T16:37:48.244Z"
+    },
+    {
+        "_id": {
+            "$oid": "664a50f35e14406f7af9f874"
+        },
+        "category_name": "furniture",
+        "thumbnail": "https://cdn.dummyjson.com/product-images/31/4.jpg",
+        "created_at": "2024-05-20T16:37:48.244Z"
+    },
+    {
+        "_id": {
+            "$oid": "664a50f35e14406f7af9f875"
+        },
+        "category_name": "automotive",
+        "thumbnail": "https://cdn.dummyjson.com/product-images/86/1.jpg",
+        "created_at": "2024-05-20T16:37:48.244Z"
+    },
+    {
+        "_id": {
+            "$oid": "664a50f35e14406f7af9f876"
+        },
+        "category_name": "motorcycle",
+        "thumbnail": "https://cdn.dummyjson.com/product-images/91/1.jpg",
+        "created_at": "2024-05-20T16:37:48.244Z"
+    },
+    {
+        "_id": {
+            "$oid": "664a50f35e14406f7af9f877"
+        },
+        "category_name": "fragrances",
+        "thumbnail": "https://cdn.dummyjson.com/product-images/12/thumbnail.jpg",
+        "created_at": "2024-05-20T16:37:48.244Z"
+    }
+]
