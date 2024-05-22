@@ -19,11 +19,10 @@ export const metadata = {
 
 export default async function RootLayout({ params: { lang }, children }) {
   const dictionary = await getDictionary(lang);
-
   return (
     <>
       <Header dictionary={dictionary} />
-      <NavBar dictionary={dictionary} showLogin={false} />
+      <NavBar lang={lang} dictionary={dictionary} showLogin={false} />
       <BreadCrumb />
       {children}
       <Footer />

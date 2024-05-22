@@ -1,7 +1,13 @@
+import { auth } from "@/auth";
 import { getDictionary } from "../dictionaries";
+import { redirect } from "next/navigation";
 
 const AccountPage = async ({ params: { lang } }) => {
   const dictionary = await getDictionary(lang);
+  const session = await auth();
+  if (!session?.user) {
+    redirect(`/${lang}/login`);
+  }
   return (
     <>
       <div className="container  items-start gap-6 pt-4 pb-16">

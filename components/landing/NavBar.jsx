@@ -1,9 +1,13 @@
 import { IoIosLogIn } from "react-icons/io";
 import LanguageSwitcher from "../LanguageSwitcher";
 import CustomLink from "@/components/CustomLink";
+import { auth } from "@/auth";
+import Image from "next/image";
+import Logout from "../auth/Logout";
 
-const NavBar = ({ dictionary, showLogin }) => {
+const NavBar = async ({ lang, dictionary, showLogin }) => {
   const Icon = IoIosLogIn;
+  const session = await auth();
   return (
     <nav className="bg-gray-800">
       <div className="container flex">
@@ -115,14 +119,31 @@ const NavBar = ({ dictionary, showLogin }) => {
               {dictionary.contactUs}
             </CustomLink>
           </div>
-          {showLogin && (
-            <CustomLink
-              href="/login"
-              className="text-gray-200 transition flex flex-row items-center gap-1 hover:scale-110 hover:text-primary"
-            >
-              {dictionary.login} <Icon />
-            </CustomLink>
-          )}
+          {showLogin &&
+            (session?.user ? (
+              <div className="flex flex-row gap-1 items-center text-white">
+                <span>
+                  <Image
+                    src={session?.user?.image}
+                    width={24}
+                    height={24}
+                    alt={session?.user?.name}
+                    className="rounded-full"
+                  />
+                </span>
+                <span className="text-white">{session?.user?.name}</span>|{" "}
+                <span className="hover:text-primary hover:scale-105">
+                  <Logout lang={lang} />
+                </span>
+              </div>
+            ) : (
+              <CustomLink
+                href="/login"
+                className="text-gray-200 transition flex flex-row items-center gap-1 hover:scale-110 hover:text-primary"
+              >
+                {dictionary.login} <Icon />
+              </CustomLink>
+            ))}
         </div>
       </div>
     </nav>

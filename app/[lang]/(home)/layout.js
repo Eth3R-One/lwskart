@@ -22,7 +22,7 @@ export default async function RootLayout({ params: { lang }, children }) {
   return (
     <>
       <Header dictionary={dictionary} />
-      <NavBar dictionary={dictionary} showLogin={true} />
+      <NavBar lang={lang} dictionary={dictionary} showLogin={true} />
       <BreadCrumb />
       {children}
       <Footer />
