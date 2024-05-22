@@ -10,7 +10,7 @@ const ProductPage = async ({ params: { productId, lang } }) => {
   if (product) {
     return (
       <>
-        <ProductDetails product={product} />
+        <ProductDetails lang={lang} product={product} />
         <RelatedProducts />
       </>
     );
