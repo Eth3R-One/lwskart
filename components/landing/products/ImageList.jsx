@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-const ImageList = ({ images }) => {
+const ImageList = ({ images, title }) => {
   const [selectedImage, setSelectedImage] = useState(0);
   const totalImage = images?.length - 1;
 
@@ -54,7 +54,7 @@ const ImageList = ({ images }) => {
           height={1280}
           width={1280}
           src={images[selectedImage]}
-          alt="product"
+          alt={title}
           className="w-full rounded-lg"
         />
         <button
@@ -89,7 +89,7 @@ const ImageList = ({ images }) => {
             height={1280}
             width={1280}
             src={img}
-            alt="product2"
+            alt={title}
             className={`w-full cursor-pointer border hover:border-red-400 rounded-md ${
               ind == selectedImage && "border-red-500"
             }`}

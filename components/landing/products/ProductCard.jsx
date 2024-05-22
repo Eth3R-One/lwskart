@@ -14,11 +14,13 @@ const ProductCard = ({ product, lang }) => {
     <div className="bg-white shadow rounded overflow-hidden group">
       <div className="relative">
         <Image
-          height={1080}
-          width={720}
+          height={0}
+          width={0}
           src={product?.thumbnail}
           alt={product?.title}
+          sizes="100vw"
           className="w-full"
+          layout="responsive"
         />
         <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition">
           {/* view/add to cart */}
@@ -84,12 +86,21 @@ const ProductCard = ({ product, lang }) => {
           </div>
         </div>
       </div>
-      <a
-        href="#"
-        className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
-      >
-        Add to cart
-      </a>
+      {product?.stock?.quantity ? (
+        <CustomLink
+          href="#"
+          className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
+        >
+          Add to cart
+        </CustomLink>
+      ) : (
+        <button
+          disabled
+          className="block w-full cursor-not-allowed py-1 text-center text-white rounded-b bg-red-400 border border-red-400 rounded transition uppercase font-roboto font-medium"
+        >
+          Stock Out
+        </button>
+      )}
     </div>
   );
 };
