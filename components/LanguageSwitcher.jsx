@@ -33,7 +33,6 @@ const LanguageSwitcher = () => {
     if (pathname?.includes(selectedLanguage)) {
       updatedPath = pathname.replace(selectedLanguage, lang);
     }
-    // location.replace(updatedPath);
     router.push(updatedPath);
   };
 
@@ -43,7 +42,6 @@ const LanguageSwitcher = () => {
         className="flex items-center gap-2"
         onClick={() => setShowManu(!showManu)}
         onMouseEnter={() => setShowManu(!showManu)}
-        // onMouseLeave={() => setShowManu(!showManu)}
       >
         <Image
           className="max-w-8"

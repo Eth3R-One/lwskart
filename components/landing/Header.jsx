@@ -34,7 +34,9 @@ const Header = ({ dictionary }) => {
             {dictionary.search}
           </button>
         </div>
-        <div className="flex items-center space-x-4 justify-center gap-5 px-2">
+        <div className="flex items-center space-x-4 justify-end">
+          {" "}
+          {/* Aligned to the right */}
           <CustomLink
             href="/wish-list"
             className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"
@@ -47,7 +49,6 @@ const Header = ({ dictionary }) => {
             </div>
             <p className="text-xs leading-3">wishlist</p>
           </CustomLink>
-
           <CustomLink
             href="/cart"
             className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"
@@ -60,7 +61,6 @@ const Header = ({ dictionary }) => {
             </div>
             <p className="text-xs leading-3">cart</p>
           </CustomLink>
-
           <CustomLink
             href="/account"
             className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"
@@ -72,7 +72,6 @@ const Header = ({ dictionary }) => {
               {dictionary.account}
             </div>
           </CustomLink>
-
           <LanguageSwitcher />
         </div>
       </div>
