@@ -16,7 +16,6 @@ export const POST = async (request) => {
   };
   try {
     const user = await userModel.findOne({ email }).lean();
-    console.log(user);
     if (user) {
       return new NextResponse("Email already registered", { status: 500 });
     } else {
@@ -24,7 +23,6 @@ export const POST = async (request) => {
       return new NextResponse("User has been created", { status: 201 });
     }
   } catch (err) {
-    console.log(err);
     return new NextResponse(err?.message, { status: 500 });
   }
 };
