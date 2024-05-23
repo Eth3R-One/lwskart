@@ -1,6 +1,11 @@
+import { getDictionary } from "@/app/[lang]/(home)/dictionaries";
 import ProductsList from "./ProductsList";
+import { getCategories } from "@/database/queries";
+import CategoryFilter from "../categories/CategoryFilter";
 
-const SideBar = () => {
+const SideBar = async ({ lang }) => {
+  const dictionary = await getDictionary(lang);
+  const categories = await getCategories();
   return (
     <>
       <div className="text-center md:hidden">
@@ -64,7 +69,7 @@ const SideBar = () => {
         <div className="divide-y divide-gray-200 space-y-5">
           <div>
             <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-              Categories
+              {dictionary?.shopByCategory}
             </h3>
             <div className="space-y-2">
               <div className="flex items-center">
@@ -264,72 +269,13 @@ const SideBar = () => {
         <div className="divide-y divide-gray-200 space-y-5">
           <div>
             <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
-              Categories
+              {dictionary?.shopByCategory}
             </h3>
-            <div className="space-y-2">
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="cat-1"
-                  id="cat-1"
-                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-                />
-                <label
-                  htmlFor="cat-1"
-                  className="text-gray-600 ml-3 cusror-pointer"
-                >
-                  Bedroom
-                </label>
-                <div className="ml-auto text-gray-600 text-sm">(15)</div>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="cat-2"
-                  id="cat-2"
-                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-                />
-                <label
-                  htmlFor="cat-2"
-                  className="text-gray-600 ml-3 cusror-pointer"
-                >
-                  Sofa
-                </label>
-                <div className="ml-auto text-gray-600 text-sm">(9)</div>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="cat-3"
-                  id="cat-3"
-                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-                />
-                <label
-                  htmlFor="cat-3"
-                  className="text-gray-600 ml-3 cusror-pointer"
-                >
-                  Office
-                </label>
-                <div className="ml-auto text-gray-600 text-sm">(21)</div>
-              </div>
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  name="cat-4"
-                  id="cat-4"
-                  className="text-primary focus:ring-0 rounded-sm cursor-pointer"
-                />
-                <label
-                  htmlFor="cat-4"
-                  className="text-gray-600 ml-3 cusror-pointer"
-                >
-                  Outdoor
-                </label>
-                <div className="ml-auto text-gray-600 text-sm">(10)</div>
-              </div>
-            </div>
+            {/* category filter */}
+            <CategoryFilter categories={categories} />
           </div>
 
+          {/* price */}
           <div className="pt-4">
             <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
               Price
@@ -353,6 +299,7 @@ const SideBar = () => {
             </div>
           </div>
 
+          {/* size */}
           <div className="pt-4">
             <h3 className="text-xl text-gray-800 mb-3 uppercase font-medium">
               size

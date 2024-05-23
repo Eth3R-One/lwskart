@@ -8,7 +8,7 @@ const RelatedProducts = () => {
         <div className="bg-white shadow rounded overflow-hidden group">
           <div className="relative">
             <img
-              src="../assets/images/products/product1.jpg"
+              src="/assets/images/products/product1.jpg"
               alt="product 1"
               className="w-full"
             />
@@ -73,7 +73,7 @@ const RelatedProducts = () => {
         <div className="bg-white shadow rounded overflow-hidden group">
           <div className="relative">
             <img
-              src="../assets/images/products/product4.jpg"
+              src="/assets/images/products/product4.jpg"
               alt="product 1"
               className="w-full"
             />
@@ -138,7 +138,7 @@ const RelatedProducts = () => {
         <div className="bg-white shadow rounded overflow-hidden group">
           <div className="relative">
             <img
-              src="../assets/images/products/product2.jpg"
+              src="/assets/images/products/product2.jpg"
               alt="product 1"
               className="w-full"
             />
@@ -203,7 +203,7 @@ const RelatedProducts = () => {
         <div className="bg-white shadow rounded overflow-hidden group">
           <div className="relative">
             <img
-              src="../assets/images/products/product3.jpg"
+              src="/assets/images/products/product3.jpg"
               alt="product 1"
               className="w-full"
             />

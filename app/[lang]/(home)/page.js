@@ -1,6 +1,6 @@
 import AdsSection from "@/components/landing/AdsSection";
 import BannerSection from "@/components/landing/BannerSection";
-import CategoriesList from "@/components/landing/products/CategoriesList";
+import CategoriesList from "@/components/landing/categories/CategoriesList";
 import FeaturesSection from "@/components/landing/FeaturesSection";
 import TrendingProducts from "@/components/landing/products/TrendingProducts";
 import TopNewArrivalSection from "@/components/landing/products/TopNewArrivalSection";
