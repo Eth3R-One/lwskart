@@ -1,9 +1,11 @@
+import { categoryModel } from "@/models/category-model";
 import { productModel } from "@/models/product-model";
 import { dbConnect } from "@/service/mongo";
 import {
   replaceMongoIdInArray,
   replaceMongoIdInObject,
 } from "@/utils/data-utils";
+import mongoose, { mongo } from "mongoose";
 
 export const getProducts = async () => {
   await dbConnect();
@@ -15,7 +17,23 @@ export const getProducts = async () => {
 export const getProductById = async (productId) => {
   await dbConnect();
   try {
-    const product = await productModel.findById(productId).lean();
-    return replaceMongoIdInObject(product);
-  } catch (err) {}
+    if (mongoose.Types.ObjectId.isValid(productId)) {
+      const product = await productModel.findOne({ _id: productId }).lean();
+      return replaceMongoIdInObject(product);
+    }
+    return undefined;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const getCategories = async () => {
+  await dbConnect();
+  try {
+    const categories = await categoryModel.find().lean();
+
+    return replaceMongoIdInArray(categories);
+  } catch (err) {
+    throw err;
+  }
 };
