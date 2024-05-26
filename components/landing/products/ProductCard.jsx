@@ -8,8 +8,16 @@ import { getDiscountPrice } from "@/utils/discount-price-utils";
 import { FaStar } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
+import AddToWishListButton from "./cart/AddToWishListButton";
+import { auth } from "@/auth";
+import { getUserByEmail } from "@/database/queries";
 
-const ProductCard = ({ product, lang }) => {
+const ProductCard = async ({ product, lang }) => {
+  const session = await auth();
+  let user;
+  if (session?.user) {
+    user = await getUserByEmail(session?.user?.email);
+  }
   return (
     <div className="bg-white shadow rounded group">
       <div className="relative">
@@ -30,13 +38,8 @@ const ProductCard = ({ product, lang }) => {
           >
             <FaMagnifyingGlass />
           </CustomLink>
-          <a
-            href="#"
-            className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-            title="add to wishlist"
-          >
-            <FaHeart />
-          </a>
+
+          <AddToWishListButton userId={user?.id} productId={product?.id} />
         </div>
       </div>
       <div className="pt-4 pb-3 px-4">

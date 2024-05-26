@@ -5,6 +5,7 @@ import { getDiscountPrice } from "@/utils/discount-price-utils";
 
 import { FaShoppingBag } from "react-icons/fa";
 import { LiaHeartSolid } from "react-icons/lia";
+import CustomLink from "@/components/CustomLink";
 
 const ProductDetails = ({ product, lang }) => {
   return (
@@ -46,7 +47,13 @@ const ProductDetails = ({ product, lang }) => {
             </p>
             <p className="space-x-2">
               <span className="text-gray-800 font-semibold">Category: </span>
-              <span className="text-gray-600">{product?.category}</span>
+              <CustomLink
+                href={`shop`}
+                searchParams={{ category: product?.category }}
+                className="text-gray-600 underline hover:text-primary"
+              >
+                {product?.category}
+              </CustomLink>
             </p>
             <p className="space-x-2">
               <span className="text-gray-800 font-semibold">SKU: </span>

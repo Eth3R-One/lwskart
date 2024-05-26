@@ -1,12 +1,29 @@
 import Image from "next/image";
-import Link from "next/link";
 import CustomLink from "../CustomLink";
 import { BsCartCheck } from "react-icons/bs";
 import { CiHeart } from "react-icons/ci";
 import { FaRegUser, FaSearch } from "react-icons/fa";
 import LanguageSwitcher from "../LanguageSwitcher";
+import WishListComponent from "./WishListComponent";
+import { auth } from "@/auth";
+import {
+  getUserByEmail,
+  getWishList,
+  
+} from "@/database/queries";
 
-const Header = ({ dictionary }) => {
+const Header = async ({ dictionary }) => {
+  const session = await auth();
+  let user = null;
+  let wishlist = null;
+
+  if (session?.user) {
+    user = await getUserByEmail(session.user.email);
+  }
+  if (user) {
+    const wishlistData = await getWishList(user.id);
+    wishlist = wishlistData?.products.map((product) => product._id.toString());
+  }
   return (
     <header className="py-4 shadow-sm bg-white">
       <div className="container flex items-center justify-between">
@@ -35,20 +52,7 @@ const Header = ({ dictionary }) => {
           </button>
         </div>
         <div className="flex items-center space-x-4 justify-end">
-          {" "}
-          {/* Aligned to the right */}
-          <CustomLink
-            href="/wish-list"
-            className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"
-          >
-            <div className="text-2xl relative">
-              <CiHeart />
-              <div className="absolute right-2 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                8
-              </div>
-            </div>
-            <p className="text-xs leading-3">wishlist</p>
-          </CustomLink>
+          <WishListComponent wishListFromDB={wishlist} />
           <CustomLink
             href="/cart"
             className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"
