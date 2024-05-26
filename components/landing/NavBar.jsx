@@ -123,13 +123,19 @@ const NavBar = async ({ lang, dictionary, showLogin }) => {
             (session?.user ? (
               <div className="flex flex-row gap-1 items-center text-white">
                 <span>
-                  <Image
-                    src={session?.user?.image}
-                    width={24}
-                    height={24}
-                    alt={session?.user?.name}
-                    className="rounded-full"
-                  />
+                  {session?.user?.image ? (
+                    <Image
+                      src={session?.user?.image}
+                      width={24}
+                      height={24}
+                      alt={session?.user?.name}
+                      className="rounded-full"
+                    />
+                  ) : (
+                    <span className="bg-teal-700 mr-2 px-3 py-2 rounded-full">
+                      {session?.user?.name.charAt(0).toUpperCase()}
+                    </span>
+                  )}
                 </span>
                 <span className="text-white">{session?.user?.name}</span>|{" "}
                 <span className="hover:text-primary hover:scale-105">

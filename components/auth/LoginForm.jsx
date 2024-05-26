@@ -1,14 +1,22 @@
 "use client";
 
-import { login } from "@/app/actions";
-import { useRouter } from "next/navigation";
+import { login, toggleWishList } from "@/app/actions";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import { useState } from "react";
 import SpinnerLoader from "../SpinnerLoader";
 
 const LoginForm = ({ lang }) => {
   const [error, setError] = useState("");
-  const route = useRouter();
+  const router = useRouter();
+  const query = useSearchParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const redirect = query.get("redirect");
+  console.log(redirect);
+  const productId = query.get("productId");
+  console.log(productId);
+
   const handleLogin = async (event) => {
     event.preventDefault();
     setIsSubmitted(true);
@@ -21,7 +29,11 @@ const LoginForm = ({ lang }) => {
         setError("Invalid Credentials");
         setIsSubmitted(false);
       } else {
-        route.push(`/${lang}/account`);
+        if (redirect) {
+          router.push(`/${lang}/${redirect}?productId=${productId}`);
+        } else {
+          router.push(`/${lang}/account`);
+        }
       }
     } catch (err) {
       setError("Invalid Credentials");
