@@ -13,9 +13,7 @@ const LoginForm = ({ lang }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const redirect = query.get("redirect");
-  console.log(redirect);
   const productId = query.get("productId");
-  console.log(productId);
 
   const handleLogin = async (event) => {
     event.preventDefault();

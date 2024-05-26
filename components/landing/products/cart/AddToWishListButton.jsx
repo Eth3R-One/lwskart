@@ -21,7 +21,7 @@ const AddToWishListButton = ({ productId, isWishlisted, userId }) => {
       try {
         const res = await toggleWishList(userId, productId);
         if (res.status === 201) {
-          const updatedWishlist = [...wishlist];
+          const updatedWishlist = wishlist ? [...wishlist] : [];
           const productIndex = updatedWishlist.indexOf(productId);
 
           if (productIndex === -1) {
