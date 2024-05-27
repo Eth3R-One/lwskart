@@ -7,6 +7,8 @@ import { getDiscountPrice } from "@/utils/discount-price-utils";
 
 import { MdDelete } from "react-icons/md";
 import AddToWishListButton from "@/components/landing/products/cart/AddToWishListButton";
+import { toggleWishList } from "@/app/actions";
+import { revalidatePath } from "next/cache";
 
 const WishListPage = async ({
   params: { lang },
@@ -16,7 +18,19 @@ const WishListPage = async ({
   if (!session?.user) {
     redirect("/login");
   }
-  const userWishList = await getWishList(session?.user?.id);
+  let userWishList = await getWishList(session?.user?.id);
+  if (productId) {
+    const isWishListed = userWishList?.products?.some(
+      (product) => product?._id.toString() === productId.toString()
+    );
+    if (!isWishListed) {
+      const res = await toggleWishList(session?.user?.id, productId);
+      console.log(res);
+      if (res?.status == 201) {
+        userWishList = await getWishList(session?.user?.id);
+      }
+    }
+  }
 
   return (
     <div className="container gap-6 pt-4 pb-16">

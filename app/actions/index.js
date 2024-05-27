@@ -31,7 +31,6 @@ export const toggleWishList = async (userId, productId) => {
         products: [productId],
       });
       await created.save();
-      revalidatePath("/", "layout");
     } else {
       const productIndex = wishlist.products.indexOf(productId);
       if (productIndex === -1) {
@@ -40,8 +39,8 @@ export const toggleWishList = async (userId, productId) => {
         wishlist.products.splice(productIndex, 1);
       }
       await wishlist.save();
-      revalidatePath("/", "layout");
     }
+    revalidatePath("/", "layout");
     return { status: 201 };
   } catch (err) {
     console.error(err);
