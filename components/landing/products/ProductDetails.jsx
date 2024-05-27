@@ -6,8 +6,11 @@ import { getDiscountPrice } from "@/utils/discount-price-utils";
 import { FaShoppingBag } from "react-icons/fa";
 import { LiaHeartSolid } from "react-icons/lia";
 import CustomLink from "@/components/CustomLink";
+import ToggleWishListButton from "./cart/ToggleWishListButton";
+import { auth } from "@/auth";
 
-const ProductDetails = ({ product, lang }) => {
+const ProductDetails = async ({ product, lang }) => {
+  const session = await auth();
   return (
     <>
       <div className="container grid grid-cols-2 gap-6 ">
@@ -30,14 +33,13 @@ const ProductDetails = ({ product, lang }) => {
           <div className="space-y-2">
             <p className="text-gray-800 font-semibold space-x-2">
               <span>Availability: </span>
-              {product?.stock?.quantity >= 20 && (
+              {product?.quantity >= 20 && (
                 <span className="text-green-600">In Stock</span>
               )}
-              {0 < product?.stock?.quantity &&
-                product?.stock?.quantity < 20 && (
-                  <span className="text-yellow-600">Limited Stock</span>
-                )}
-              {product?.stock?.quantity == 0 && (
+              {0 < product?.quantity && product?.quantity < 20 && (
+                <span className="text-yellow-600">Limited Stock</span>
+              )}
+              {product?.quantity == 0 && (
                 <span className="text-red-600">Stock Out</span>
               )}
             </p>
@@ -115,12 +117,16 @@ const ProductDetails = ({ product, lang }) => {
             >
               <FaShoppingBag /> Add to cart
             </a>
-            <a
+            {/* <a
               href="#"
               className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition"
             >
               <LiaHeartSolid /> Wishlist
-            </a>
+            </a> */}
+            <ToggleWishListButton
+              productId={product?.id}
+              userId={session?.user?.id}
+            />
           </div>
 
           <div className="flex gap-3 mt-4">

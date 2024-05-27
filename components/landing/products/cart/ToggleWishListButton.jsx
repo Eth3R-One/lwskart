@@ -2,19 +2,24 @@
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
-import { LiaHeartSolid } from "react-icons/lia";
 import { useEffect, useState } from "react";
 import { getUserByEmail } from "@/database/queries";
 import { toggleWishList } from "@/app/actions";
 import useWishlist from "@/hooks/useWishlist";
 
-const AddToWishListButton = ({ productId, isWishlisted, userId, children }) => {
+import { LiaHeartSolid } from "react-icons/lia";
+import { FaRegHeart } from "react-icons/fa6";
+
+const ToggleWishListButton = ({ productId, userId, children }) => {
   const { data, status } = useSession();
   const router = useRouter();
   const { lang } = useParams();
 
   const { wishlist, setWishlist } = useWishlist();
 
+  const [isWishListed, setIsWishlisted] = useState(() =>
+    wishlist?.some((prod) => prod.toString() == productId.toString())
+  );
   const handleWishListClick = async (event) => {
     event.preventDefault();
     if (userId) {
@@ -31,6 +36,7 @@ const AddToWishListButton = ({ productId, isWishlisted, userId, children }) => {
           }
 
           setWishlist(updatedWishlist);
+          setIsWishlisted(!isWishListed);
         } else {
           console.error("Failed to update wishlist");
         }
@@ -46,10 +52,11 @@ const AddToWishListButton = ({ productId, isWishlisted, userId, children }) => {
     <button
       onClick={handleWishListClick}
       className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+      title={isWishListed ? "Remove from wishlist" : `Add to wishlist`}
     >
-      {children ? children : <LiaHeartSolid />}
+      {children ? children : isWishListed ? <LiaHeartSolid /> : <FaRegHeart />}
     </button>
   );
 };
 
-export default AddToWishListButton;
+export default ToggleWishListButton;

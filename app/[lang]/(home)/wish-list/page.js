@@ -6,7 +6,7 @@ import { getWishList } from "@/database/queries";
 import { getDiscountPrice } from "@/utils/discount-price-utils";
 
 import { MdDelete } from "react-icons/md";
-import AddToWishListButton from "@/components/landing/products/cart/AddToWishListButton";
+import AddToWishListButton from "@/components/landing/products/cart/ToggleWishListButton";
 import { toggleWishList } from "@/app/actions";
 import { revalidatePath } from "next/cache";
 

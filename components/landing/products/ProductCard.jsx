@@ -8,7 +8,7 @@ import { getDiscountPrice } from "@/utils/discount-price-utils";
 import { FaStar } from "react-icons/fa6";
 import { FaMagnifyingGlass } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
-import AddToWishListButton from "./cart/AddToWishListButton";
+import AddToWishListButton from "./cart/ToggleWishListButton";
 import { auth } from "@/auth";
 import { getUserByEmail } from "@/database/queries";
 
