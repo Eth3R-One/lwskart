@@ -54,4 +54,14 @@ export const {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.id = user.id;
+      return token;
+    },
+    async session({ session, user, token }) {
+      session.user.id = token?.id;
+      return session;
+    },
+  },
 });
