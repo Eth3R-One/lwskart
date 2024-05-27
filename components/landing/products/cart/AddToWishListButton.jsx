@@ -8,7 +8,7 @@ import { getUserByEmail } from "@/database/queries";
 import { toggleWishList } from "@/app/actions";
 import useWishlist from "@/hooks/useWishlist";
 
-const AddToWishListButton = ({ productId, isWishlisted, userId }) => {
+const AddToWishListButton = ({ productId, isWishlisted, userId, children }) => {
   const { data, status } = useSession();
   const router = useRouter();
   const { lang } = useParams();
@@ -46,9 +46,8 @@ const AddToWishListButton = ({ productId, isWishlisted, userId }) => {
     <button
       onClick={handleWishListClick}
       className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
-      title="add to wishlist"
     >
-      <LiaHeartSolid />
+      {children ? children : <LiaHeartSolid />}
     </button>
   );
 };

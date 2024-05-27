@@ -6,22 +6,14 @@ import { FaRegUser, FaSearch } from "react-icons/fa";
 import LanguageSwitcher from "../LanguageSwitcher";
 import WishListComponent from "./WishListComponent";
 import { auth } from "@/auth";
-import {
-  getUserByEmail,
-  getWishList,
-  
-} from "@/database/queries";
+import { getUserByEmail, getWishList } from "@/database/queries";
 
 const Header = async ({ dictionary }) => {
   const session = await auth();
-  let user = null;
   let wishlist = null;
 
   if (session?.user) {
-    user = await getUserByEmail(session.user.email);
-  }
-  if (user) {
-    const wishlistData = await getWishList(user.id);
+    const wishlistData = await getWishList(session?.user.id);
     wishlist = wishlistData?.products.map((product) => product._id.toString());
   }
   return (

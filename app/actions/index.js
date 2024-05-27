@@ -4,6 +4,7 @@ import { signIn } from "@/auth";
 import { wishlistModel } from "@/models/wishlist-model";
 import { dbConnect } from "@/service/mongo";
 import { replaceMongoIdInObject } from "@/utils/data-utils";
+import { revalidatePath } from "next/cache";
 
 export async function login(formData) {
   dbConnect();
@@ -30,6 +31,7 @@ export const toggleWishList = async (userId, productId) => {
         products: [productId],
       });
       await created.save();
+      revalidatePath("/", "layout");
     } else {
       const productIndex = wishlist.products.indexOf(productId);
       if (productIndex === -1) {
@@ -38,6 +40,7 @@ export const toggleWishList = async (userId, productId) => {
         wishlist.products.splice(productIndex, 1);
       }
       await wishlist.save();
+      revalidatePath("/", "layout");
     }
     return { status: 201 };
   } catch (err) {

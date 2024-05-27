@@ -76,7 +76,9 @@ export const getWishList = async (userId) => {
   await dbConnect();
 
   try {
-    const wishList = await wishlistModel.findOne({ userId: userId });
+    const wishList = await wishlistModel
+      .findOne({ userId })
+      .populate("products");
     return wishList;
   } catch (err) {
     console.error(err);

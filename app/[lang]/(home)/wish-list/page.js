@@ -1,93 +1,98 @@
-const WishListPage = () => {
+import Image from "next/image";
+import { redirect } from "next/navigation";
+import { auth } from "@/auth";
+import CustomLink from "@/components/CustomLink";
+import { getWishList } from "@/database/queries";
+import { getDiscountPrice } from "@/utils/discount-price-utils";
+
+import { MdDelete } from "react-icons/md";
+import AddToWishListButton from "@/components/landing/products/cart/AddToWishListButton";
+
+const WishListPage = async ({
+  params: { lang },
+  searchParams: { productId },
+}) => {
+  const session = await auth();
+  if (!session?.user) {
+    redirect("/login");
+  }
+  const userWishList = await getWishList(session?.user?.id);
+
   return (
     <div className="container gap-6 pt-4 pb-16">
       <div className="mx-auto space-y-4 max-w-6xl">
-        <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
-          <div className="w-28">
-            <img
-              src="../assets/images/products/product6.jpg"
-              alt="product 6"
-              className="w-full"
-            />
-          </div>
-          <div className="w-1/3">
-            <h2 className="text-gray-800 text-xl font-medium uppercase">
-              Italian L shape
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Availability: <span className="text-green-600">In Stock</span>
-            </p>
-          </div>
-          <div className="text-primary text-lg font-semibold">$320.00</div>
-          <a
-            href="#"
-            className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
-          >
-            add to cart
-          </a>
+        {userWishList?.products?.length > 0 ? (
+          userWishList?.products?.map((product) => (
+            <div
+              key={product._id}
+              className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded"
+            >
+              <div className="w-28">
+                <CustomLink href={`/shop/${product._id}`}>
+                  <Image
+                    src={product?.thumbnail}
+                    width={100}
+                    height={100}
+                    alt={product.title}
+                    className="w-full rounded-md"
+                  />
+                </CustomLink>
+              </div>
+              <div className="w-1/3">
+                <CustomLink href={`/shop/${product._id}`}>
+                  <h2 className="text-gray-800 text-xl font-medium uppercase">
+                    {product.title}
+                  </h2>
+                </CustomLink>
+                <p className="text-gray-500 text-sm">
+                  Availability:{" "}
+                  {product?.quantity ? (
+                    <span className="text-green-600">In Stock</span>
+                  ) : (
+                    <span className="text-red-600">Out of Stock</span>
+                  )}
+                </p>
+              </div>
+              <div className="text-primary text-lg font-semibold">
+                $
+                {Math.round(
+                  getDiscountPrice(product?.price, product?.discountPercentage)
+                )}
+              </div>
 
-          <div className="text-gray-600 cursor-pointer hover:text-primary">
-            <i className="fa-solid fa-trash"></i>
-          </div>
-        </div>
+              <div className="flex flex-row items-center justify-end">
+                {product?.quantity ? (
+                  <a
+                    href="#"
+                    className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
+                  >
+                    add to cart
+                  </a>
+                ) : (
+                  <a
+                    href="#"
+                    className="cursor-not-allowed px-6 py-2 text-center text-sm text-white bg-red-400 border border-red-400 rounded transition uppercase font-roboto font-medium"
+                  >
+                    add to cart
+                  </a>
+                )}
 
-        <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
-          <div className="w-28">
-            <img
-              src="../assets/images/products/product5.jpg"
-              alt="product 6"
-              className="w-full"
-            />
+                <div className="text-red-600 cursor-pointer pl-5 hover:text-primary">
+                  <AddToWishListButton
+                    userId={session?.user?.id}
+                    productId={product?.id}
+                  >
+                    <MdDelete />
+                  </AddToWishListButton>
+                </div>
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="text-primary text-center border gap-6 p-4 border-gray-200 rounded">
+            You have no product wishlisted
           </div>
-          <div className="w-1/3">
-            <h2 className="text-gray-800 text-xl font-medium uppercase">
-              Dining Table
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Availability: <span className="text-green-600">In Stock</span>
-            </p>
-          </div>
-          <div className="text-primary text-lg font-semibold">$320.00</div>
-          <a
-            href="#"
-            className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
-          >
-            add to cart
-          </a>
-
-          <div className="text-gray-600 cursor-pointer hover:text-primary">
-            <i className="fa-solid fa-trash"></i>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between border gap-6 p-4 border-gray-200 rounded">
-          <div className="w-28">
-            <img
-              src="/assets/images/products/product10.jpg"
-              alt="product 6"
-              className="w-full"
-            />
-          </div>
-          <div className="w-1/3">
-            <h2 className="text-gray-800 text-xl font-medium uppercase">
-              Sofa
-            </h2>
-            <p className="text-gray-500 text-sm">
-              Availability: <span className="text-red-600">Out of Stock</span>
-            </p>
-          </div>
-          <div className="text-primary text-lg font-semibold">$320.00</div>
-          <a
-            href="#"
-            className="cursor-not-allowed px-6 py-2 text-center text-sm text-white bg-red-400 border border-red-400 rounded transition uppercase font-roboto font-medium"
-          >
-            add to cart
-          </a>
-
-          <div className="text-gray-600 cursor-pointer hover:text-primary">
-            <i className="fa-solid fa-trash"></i>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );

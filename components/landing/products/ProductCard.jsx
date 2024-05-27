@@ -14,10 +14,7 @@ import { getUserByEmail } from "@/database/queries";
 
 const ProductCard = async ({ product, lang }) => {
   const session = await auth();
-  let user;
-  if (session?.user) {
-    user = await getUserByEmail(session?.user?.email);
-  }
+
   return (
     <div className="bg-white shadow rounded group">
       <div className="relative">
@@ -39,7 +36,10 @@ const ProductCard = async ({ product, lang }) => {
             <FaMagnifyingGlass />
           </CustomLink>
 
-          <AddToWishListButton userId={user?.id} productId={product?.id} />
+          <AddToWishListButton
+            userId={session?.user?.id}
+            productId={product?.id}
+          />
         </div>
       </div>
       <div className="pt-4 pb-3 px-4">
@@ -88,7 +88,7 @@ const ProductCard = async ({ product, lang }) => {
           </div>
         </div>
       </div>
-      {product?.stock?.quantity ? (
+      {product?.quantity ? (
         <CustomLink
           href="#"
           className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"

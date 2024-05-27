@@ -2,64 +2,67 @@ import mongoose, { Schema } from "mongoose";
 
 const productSchema = new Schema({
   title: {
-    required: true,
     type: String,
+    required: true,
   },
   description: {
-    required: true,
     type: String,
+    required: true,
   },
   price: {
-    required: true,
     type: Number,
+    required: true,
   },
   discountPercentage: {
-    require: false,
     type: Number,
     min: 0,
     max: 100,
   },
   rating: {
-    require: false,
     type: Number,
   },
-  stock: {
-    require: false,
-    type: Array,
+  quantity: {
+    type: Number,
   },
+
   brand: {
-    require: false,
     type: String,
   },
   category: {
-    require: false,
     type: String,
   },
   thumbnail: {
-    require: false,
     type: String,
   },
-  images: {
-    require: false,
-    type: Array,
-  },
+  images: [
+    {
+      type: String,
+    },
+  ],
   sku: {
-    require: false,
     type: String,
   },
-  attributes: {
-    require: false,
-    type: Array,
-  },
-  feedBack: {
-    require: false,
-    type: Array,
-  },
+  attributes: [
+    {
+      key: String,
+      value: String,
+    },
+  ],
+  feedBack: [
+    {
+      userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "users",
+      },
+      comment: String,
+      rating: Number,
+    },
+  ],
   createdAt: {
-    require: false,
-    type: String,
+    type: Date,
+    default: Date.now,
   },
 });
 
 export const productModel =
-  mongoose.models.products ?? mongoose.model("products", productSchema);
+  mongoose?.models?.products || mongoose.model("products", productSchema);
