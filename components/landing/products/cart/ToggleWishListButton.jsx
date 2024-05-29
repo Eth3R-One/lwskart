@@ -1,25 +1,32 @@
 "use client";
 import { useParams, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
 
 import { useEffect, useState } from "react";
-import { getUserByEmail } from "@/database/queries";
 import { toggleWishList } from "@/app/actions";
 import useWishlist from "@/hooks/useWishlist";
 
 import { LiaHeartSolid } from "react-icons/lia";
 import { FaRegHeart } from "react-icons/fa6";
+import { MdDelete } from "react-icons/md";
 
-const ToggleWishListButton = ({ productId, userId, children }) => {
-  const { data, status } = useSession();
+const ToggleWishListButton = ({ productId, userId, className, children }) => {
   const router = useRouter();
   const { lang } = useParams();
 
   const { wishlist, setWishlist } = useWishlist();
 
-  const [isWishListed, setIsWishlisted] = useState(() =>
-    wishlist?.some((prod) => prod.toString() == productId.toString())
-  );
+  const [isWishListed, setIsWishlisted] = useState(false);
+
+  useEffect(() => {
+    const status = wishlist?.some(
+      (prod) => prod.toString() == productId.toString()
+    );
+    if (status) {
+      setIsWishlisted(true);
+    } else {
+      setIsWishlisted(false);
+    }
+  }, [productId, wishlist]);
   const handleWishListClick = async (event) => {
     event.preventDefault();
     if (userId) {
@@ -51,10 +58,27 @@ const ToggleWishListButton = ({ productId, userId, children }) => {
   return (
     <button
       onClick={handleWishListClick}
-      className="text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+      className={
+        className ??
+        "text-white text-lg w-9 h-8 rounded-full bg-primary flex items-center justify-center hover:bg-gray-800 transition"
+      }
       title={isWishListed ? "Remove from wishlist" : `Add to wishlist`}
     >
-      {children ? children : isWishListed ? <LiaHeartSolid /> : <FaRegHeart />}
+      {children ? (
+        isWishListed ? (
+          <>
+            <LiaHeartSolid size={25} /> Remove from wishlist
+          </>
+        ) : (
+          <>
+            <LiaHeartSolid /> Add to Wishlist
+          </>
+        )
+      ) : isWishListed ? (
+        <MdDelete />
+      ) : (
+        <FaRegHeart />
+      )}
     </button>
   );
 };

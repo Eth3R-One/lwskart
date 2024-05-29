@@ -5,10 +5,10 @@ import CustomLink from "@/components/CustomLink";
 import { getWishList } from "@/database/queries";
 import { getDiscountPrice } from "@/utils/discount-price-utils";
 
-import { MdDelete } from "react-icons/md";
 import AddToWishListButton from "@/components/landing/products/cart/ToggleWishListButton";
 import { toggleWishList } from "@/app/actions";
 import { revalidatePath } from "next/cache";
+import ToggleCartItemButton from "@/components/landing/products/cart/ToggleCartItemButton";
 
 const WishListPage = async ({
   params: { lang },
@@ -25,7 +25,6 @@ const WishListPage = async ({
     );
     if (!isWishListed) {
       const res = await toggleWishList(session?.user?.id, productId);
-      console.log(res);
       if (res?.status == 201) {
         userWishList = await getWishList(session?.user?.id);
       }
@@ -76,12 +75,20 @@ const WishListPage = async ({
 
               <div className="flex flex-row items-center justify-end">
                 {product?.quantity ? (
-                  <a
+                  /* <a
                     href="#"
                     className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
                   >
                     add to cart
-                  </a>
+                  </a> */
+
+                  <ToggleCartItemButton
+                    productId={product?.id}
+                    userId={session?.user?.id}
+                    className={
+                      "px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
+                    }
+                  />
                 ) : (
                   <a
                     href="#"
@@ -95,9 +102,7 @@ const WishListPage = async ({
                   <AddToWishListButton
                     userId={session?.user?.id}
                     productId={product?.id}
-                  >
-                    <MdDelete />
-                  </AddToWishListButton>
+                  />
                 </div>
               </div>
             </div>
