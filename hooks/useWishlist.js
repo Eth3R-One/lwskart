@@ -1,7 +1,7 @@
 const { WishlistContext } = require("@/context");
 const { useContext } = require("react");
 
-export const useWishlist = () => {
+const useWishlist = () => {
   return useContext(WishlistContext);
 };
 
