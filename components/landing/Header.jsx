@@ -6,15 +6,18 @@ import { FaRegUser, FaSearch } from "react-icons/fa";
 import LanguageSwitcher from "../LanguageSwitcher";
 import WishListComponent from "./WishListComponent";
 import { auth } from "@/auth";
-import { getUserByEmail, getWishList } from "@/database/queries";
+import { getCartItems, getUserByEmail, getWishList } from "@/database/queries";
+import CartItemsComponent from "./products/cart/CartListComponent";
 
 const Header = async ({ dictionary }) => {
   const session = await auth();
-  let wishlist = null;
+  let wishlist;
+  let cartItems;
 
   if (session?.user) {
     const wishlistData = await getWishList(session?.user.id);
     wishlist = wishlistData?.products.map((product) => product._id.toString());
+    cartItems = await getCartItems(session?.user?.id);
   }
   return (
     <header className="py-4 shadow-sm bg-white">
@@ -45,18 +48,8 @@ const Header = async ({ dictionary }) => {
         </div>
         <div className="flex items-center space-x-4 justify-end">
           <WishListComponent wishListFromDB={wishlist} />
-          <CustomLink
-            href="/cart"
-            className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"
-          >
-            <div className="text-2xl relative">
-              <BsCartCheck />
-              <div className="absolute -right-2 -top-1 w-5 h-5 rounded-full flex items-center justify-center bg-primary text-white text-xs">
-                2
-              </div>
-            </div>
-            <p className="text-xs leading-3">cart</p>
-          </CustomLink>
+          <CartItemsComponent cartItemsFromDB={cartItems} />
+
           <CustomLink
             href="/account"
             className="text-center text-gray-700 hover:text-primary transition relative hover:scale-110"

@@ -1,3 +1,4 @@
+import cartsModel from "@/models/cart-model";
 import { categoryModel } from "@/models/category-model";
 import { productModel } from "@/models/product-model";
 import { userModel } from "@/models/user-model";
@@ -83,5 +84,15 @@ export const getWishList = async (userId) => {
   } catch (err) {
     console.error(err);
     return { status: 500, error: "Failed to fetch wishlist" };
+  }
+};
+
+export const getCartItems = async (userId) => {
+  await dbConnect();
+  try {
+    const cartItems = await cartsModel.findOne({ userId: userId }).lean();
+    return replaceMongoIdInArray(cartItems?.items);
+  } catch (err) {
+    console.log(err);
   }
 };

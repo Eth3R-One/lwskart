@@ -8,6 +8,9 @@ import { LiaHeartSolid } from "react-icons/lia";
 import CustomLink from "@/components/CustomLink";
 import ToggleWishListButton from "./cart/ToggleWishListButton";
 import { auth } from "@/auth";
+import ToggleCartItemButton from "./cart/ToggleCartItemButton";
+import QuantitySection from "./QuantitySection";
+import { FaCartShopping } from "react-icons/fa6";
 
 const ProductDetails = async ({ product, lang }) => {
   const session = await auth();
@@ -110,23 +113,26 @@ const ProductDetails = async ({ product, lang }) => {
             </div>
           )}
 
+          <QuantitySection productId={product?.id} />
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
-            <a
-              href="#"
-              className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
-            >
-              <FaShoppingBag /> Add to cart
-            </a>
-            {/* <a
-              href="#"
-              className="border border-gray-300 text-gray-600 px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:text-primary transition"
-            >
-              <LiaHeartSolid /> Wishlist
-            </a> */}
+            {product?.quantity > 0 ? (
+              <ToggleCartItemButton
+                productId={product?.id}
+                userId={session?.user?.id}
+                className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
+              />
+            ) : (
+              <div className="flex flex-row items-center cursor-not-allowed px-6 py-2 text-center text-sm text-white bg-red-400 border border-red-400 rounded transition uppercase font-roboto font-medium gap-2">
+                <FaCartShopping /> Add to cart
+              </div>
+            )}
             <ToggleWishListButton
               productId={product?.id}
               userId={session?.user?.id}
-            />
+              className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
+            >
+              Add to Wishlist || Remove
+            </ToggleWishListButton>
           </div>
 
           <div className="flex gap-3 mt-4">

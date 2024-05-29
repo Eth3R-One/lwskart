@@ -10,6 +10,7 @@ import Footer from "@/components/landing/Footer";
 import CopyRightSection from "@/components/landing/CopyRightSection";
 import BreadCrumb from "@/components/landing/BreadCrumb";
 import WishlistProvider from "@/providers/WishlistProvider";
+import CartItemsProvider from "@/providers/CartItemsProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,7 +25,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <SessionProvider>
-          <WishlistProvider>{children}</WishlistProvider>
+          <WishlistProvider>
+            <CartItemsProvider>{children}</CartItemsProvider>
+          </WishlistProvider>
         </SessionProvider>
       </body>
     </html>

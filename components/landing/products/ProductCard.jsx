@@ -11,6 +11,7 @@ import { FaHeart } from "react-icons/fa";
 import AddToWishListButton from "./cart/ToggleWishListButton";
 import { auth } from "@/auth";
 import { getUserByEmail } from "@/database/queries";
+import ToggleCartItemButton from "./cart/ToggleCartItemButton";
 
 const ProductCard = async ({ product, lang }) => {
   const session = await auth();
@@ -89,12 +90,17 @@ const ProductCard = async ({ product, lang }) => {
         </div>
       </div>
       {product?.quantity ? (
-        <CustomLink
+        /* <CustomLink
           href="#"
           className="block w-full py-1 text-center text-white bg-primary border border-primary rounded-b hover:bg-transparent hover:text-primary transition"
         >
           Add to cart
-        </CustomLink>
+        </CustomLink> */
+        <ToggleCartItemButton
+          productId={product?.id}
+          userId={session?.user?.id}
+          className="block w-full bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase gap-2 hover:bg-transparent hover:text-primary transition"
+        />
       ) : (
         <button
           disabled
