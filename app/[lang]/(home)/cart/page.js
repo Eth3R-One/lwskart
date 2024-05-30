@@ -13,6 +13,8 @@ import { MdDelete } from "react-icons/md";
 import ToggleCartItemButton from "@/components/landing/products/cart/ToggleCartItemButton";
 import Link from "next/link";
 
+import { IoIosArrowDroprightCircle } from "react-icons/io";
+
 const CartPage = async ({
   params: { lang },
   searchParams: { productId, quantity },
@@ -23,6 +25,7 @@ const CartPage = async ({
   }
 
   const cartItems = await getCartItems(session?.user?.id);
+  console.log(cartItems);
   if (productId) {
     const response = await updateCart(
       session?.user?.id,
@@ -33,6 +36,15 @@ const CartPage = async ({
       revalidatePath("/", "layout");
     }
   }
+  const calculateTotal = (cartItems) => {
+    return Math.round(
+      cartItems.reduce((total, item) => {
+        const discountedPrice =
+          item.price * (1 - item.discountPercentage / 100);
+        return total + discountedPrice * item.quantity;
+      }, 0)
+    );
+  };
 
   return (
     <div className="container pb-20">
@@ -108,9 +120,17 @@ const CartPage = async ({
                 <p className="text-2xl text-primary">
                   $
                   {lang === "en"
-                    ? Math.round(item.price * item?.quantity)
+                    ? Math.round(
+                        getDiscountPrice(item.price, item?.discountPercentage) *
+                          item?.quantity
+                      )
                     : convertNumberToBN(
-                        Math.round(item.price * item?.quantity)
+                        Math.round(
+                          getDiscountPrice(
+                            item.price,
+                            item?.discountPercentage
+                          ) * item?.quantity
+                        )
                       )}
                 </p>
               </div>
@@ -134,17 +154,42 @@ const CartPage = async ({
         )}
       </div>
 
-      <div className="grid grid-cols-1 gap-10">
-        <div>Check out page</div>
-        <div>details</div>
-        <div>Link</div>
-        <div>
-          <Link
-            href={`/${lang}/checkout`}
-            className="bg-rose-700 px-3 py-2 rounded-md text-white "
-          >
-            Checkout
-          </Link>
+      <div className="grid grid-cols-1 gap-10 pt-10">
+        <div className="bg-white">
+          <main className="mx-auto max-w-7xl px-4 pb-16 pt-4 sm:px-6 sm:pb-24 sm:pt-8 lg:px-8 xl:px-2 xl:pt-14">
+            <h1 className="sr-only">Checkout</h1>
+
+            <div className="mx-auto grid max-w-lg grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-1 border border-gray-300 rounded-lg ">
+              <div className="mx-auto w-full max-w-lg">
+                <h2 className="items-center text-center text-3xl py-2">
+                  Order summary
+                </h2>
+
+                <dl className="mt-10 space-y-6 text-sm font-medium text-gray-500">
+                  <div className="flex justify-between border-t border-gray-200 pt-6 text-gray-900">
+                    <dt className="text-base">Total</dt>
+                    <dd className="text-base">
+                      $
+                      {lang == "en"
+                        ? calculateTotal(cartItems)
+                        : convertNumberToBN(calculateTotal(cartItems))}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="mx-auto w-full max-w-lg">
+                <Link
+                  href={`/${lang}/checkout`}
+                  type="button"
+                  className="flex w-full items-center justify-center rounded-md border border-transparent bg-primary py-2 text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 gap-2 hover:scale-110"
+                >
+                  <span>Checkout</span>
+                  <IoIosArrowDroprightCircle size={20} />
+                </Link>
+              </div>
+            </div>
+          </main>
         </div>
       </div>
     </div>
