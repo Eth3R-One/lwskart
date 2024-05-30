@@ -28,6 +28,8 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
     if (userId) {
       const updatedInCartStatus = !isInCart;
       setIsInCart(updatedInCartStatus);
+      console.log("toggle cart items -> 31");
+
       await updateCartItems(productId, updatedInCartStatus);
     } else {
       const existingItemIndex = cartItems?.findIndex(
@@ -35,7 +37,10 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
       );
 
       const quantity =
-        existingItemIndex >= 0 ? cartItems[existingItemIndex]?.quantity : 1;
+        existingItemIndex >= 0
+          ? cartItems[existingItemIndex]?.newQuantity ??
+            cartItems[existingItemIndex]?.quantity
+          : 1;
 
       router.push(
         `/${lang}/login?redirect=/cart&productId=${productId}&quantity=${quantity}`
@@ -54,7 +59,10 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
       updatedCartItems[existingItemIndex] = {
         ...updatedCartItems[existingItemIndex],
         added,
-        quantity: added ? updatedCartItems[existingItemIndex].quantity : 0,
+        quantity: added
+          ? cartItems[existingItemIndex]?.newQuantity ??
+            updatedCartItems[existingItemIndex]?.quantity
+          : 0,
       };
     } else {
       updatedCartItems = added
@@ -66,10 +74,15 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
 
     // Update cart items in the database
     try {
+      console.log("toggle cart item button -> 77");
+
       const res = await updateCart(
         userId,
         productId,
-        added ? updatedCartItems[existingItemIndex]?.quantity : 0
+        added
+          ? cartItems[existingItemIndex]?.newQuantity ??
+              updatedCartItems[existingItemIndex]?.quantity
+          : 0
       );
 
       if (res.status === 201) {
