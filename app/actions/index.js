@@ -73,14 +73,18 @@ export const updateCart = async (userId, productId, quantity) => {
           cart.items.splice(productIndex, 1);
         }
       } else {
-        cart.items.push({ ...product, productId, quantity });
+        cart.items.push({
+          ...product,
+          productId: productId.toString(),
+          quantity,
+        });
       }
       const res = await cart.save();
     } else {
       // Cart does not exist, create a new one
       const newCart = await cartsModel.create({
         userId,
-        items: [{ productId, quantity, ...product }],
+        items: [{ ...product, productId: productId.toString(), quantity }],
       });
       const res = await newCart.save();
     }
