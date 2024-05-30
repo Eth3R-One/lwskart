@@ -75,13 +75,6 @@ const WishListPage = async ({
 
               <div className="flex flex-row items-center justify-end">
                 {product?.quantity ? (
-                  /* <a
-                    href="#"
-                    className="px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
-                  >
-                    add to cart
-                  </a> */
-
                   <ToggleCartItemButton
                     productId={product?.id}
                     userId={session?.user?.id}
