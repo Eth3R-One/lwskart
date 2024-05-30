@@ -23,6 +23,11 @@ const cartItemSchema = new Schema({
     type: String,
     required: false,
   },
+  discountPercentage: {
+    type: Number,
+    min: 0,
+    max: 100,
+  },
 });
 
 const cartSchema = new Schema(
