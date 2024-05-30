@@ -84,12 +84,14 @@ const ProductDetails = async ({ product, lang }) => {
                     )
                   )}
             </p>
-            <p className="text-base text-gray-400 line-through">
-              $
-              {lang == "en"
-                ? Math.round(product?.price)
-                : convertNumberToBN(Math.round(product?.price))}
-            </p>
+            {product?.discountPercentage > 0 && (
+              <p className="text-base text-gray-400 line-through">
+                $
+                {lang == "en"
+                  ? Math.round(product?.price)
+                  : convertNumberToBN(Math.round(product?.price))}
+              </p>
+            )}
           </div>
 
           <p className="mt-4 text-gray-600">
@@ -113,7 +115,13 @@ const ProductDetails = async ({ product, lang }) => {
             </div>
           )}
 
-          <QuantitySection productId={product?.id} />
+          <div className="mt-4 items-center">
+            <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
+            <QuantitySection
+              userId={session?.user?.id}
+              productId={product?.id}
+            />
+          </div>
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
             {product?.quantity > 0 ? (
               <ToggleCartItemButton
