@@ -106,7 +106,12 @@ const CartPage = async ({
 
               <div className="col-span-3 flex justify-center items-center">
                 <p className="text-2xl text-primary">
-                  ${item.price * item.quantity}
+                  $
+                  {lang === "en"
+                    ? Math.round(item.price * item?.quantity)
+                    : convertNumberToBN(
+                        Math.round(item.price * item?.quantity)
+                      )}
                 </p>
               </div>
 
