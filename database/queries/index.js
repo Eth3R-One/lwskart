@@ -96,3 +96,7 @@ export const getCartItems = async (userId) => {
     console.log(err);
   }
 };
+
+export const getUserAddress = async (userId) => {
+  await dbConnect();
+};
