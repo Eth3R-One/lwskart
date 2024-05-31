@@ -6,6 +6,7 @@ import { FaShoppingBag } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
 import { toggleWishList, updateCart } from "@/app/actions";
 import useWishlist from "@/hooks/useWishlist";
+import { toast } from "react-toastify";
 
 const ToggleCartItemButton = ({ productId, userId, className, children }) => {
   const router = useRouter();
@@ -19,16 +20,21 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
     const status = cartItems?.findIndex(
       (item) => item?.productId?.toString() === productId?.toString()
     );
-    if (status > -1 && cartItems[status]?.title != undefined)
+    if (
+      status > -1 &&
+      cartItems[status]?.title != undefined &&
+      cartItems[status].quantity > 0
+    ) {
       setIsInCart(status > -1);
+    }
   }, [cartItems, productId]);
 
   const handleAddToCartClick = async (event) => {
     event.preventDefault();
     if (userId) {
       const updatedInCartStatus = !isInCart;
+
       setIsInCart(updatedInCartStatus);
-      console.log("toggle cart items -> 31");
 
       await updateCartItems(productId, updatedInCartStatus);
     } else {
@@ -49,33 +55,27 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
   };
 
   const updateCartItems = async (productId, added) => {
-    const existingItemIndex = cartItems?.findIndex(
-      (item) => item?.productId?.toString() === productId?.toString()
-    );
-
-    let updatedCartItems;
-    if (existingItemIndex > -1) {
-      updatedCartItems = [...cartItems];
-      updatedCartItems[existingItemIndex] = {
-        ...updatedCartItems[existingItemIndex],
-        added,
-        quantity: added
-          ? cartItems[existingItemIndex]?.newQuantity ??
-            updatedCartItems[existingItemIndex]?.quantity
-          : 0,
-      };
-    } else {
-      updatedCartItems = added
-        ? [...cartItems, { productId, added: true, quantity: 1 }]
-        : cartItems;
-    }
-
-    setCartItems(updatedCartItems);
-
     // Update cart items in the database
     try {
-      console.log("toggle cart item button -> 77");
-
+      const existingItemIndex = cartItems?.findIndex(
+        (item) => item?.productId?.toString() === productId?.toString()
+      );
+      let updatedCartItems;
+      if (existingItemIndex > -1) {
+        updatedCartItems = [...cartItems];
+        updatedCartItems[existingItemIndex] = {
+          ...updatedCartItems[existingItemIndex],
+          added,
+          quantity: added
+            ? cartItems[existingItemIndex]?.newQuantity ??
+              updatedCartItems[existingItemIndex]?.quantity
+            : 0,
+        };
+      } else {
+        updatedCartItems = added
+          ? [...cartItems, { productId, added: true, quantity: 1 }]
+          : cartItems;
+      }
       const res = await updateCart(
         userId,
         productId,
@@ -92,8 +92,15 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
           const response = await toggleWishList(userId, productId);
         }
       }
+
+      setCartItems(updatedCartItems);
+
+      added
+        ? toast.success("Item added to cart")
+        : toast.info("Item removed from cart");
     } catch (err) {
       console.error("Failed to update cart items in DB:", err);
+      toast.error(err?.message ?? err);
     }
   };
 

@@ -12,6 +12,9 @@ import BreadCrumb from "@/components/landing/BreadCrumb";
 import WishlistProvider from "@/providers/WishlistProvider";
 import CartItemsProvider from "@/providers/CartItemsProvider";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
@@ -24,6 +27,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+        />
         <SessionProvider>
           <WishlistProvider>
             <CartItemsProvider>{children}</CartItemsProvider>

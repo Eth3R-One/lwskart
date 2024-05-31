@@ -25,7 +25,6 @@ const CartPage = async ({
   }
 
   const cartItems = await getCartItems(session?.user?.id);
-  console.log(cartItems);
   if (productId) {
     const response = await updateCart(
       session?.user?.id,
@@ -140,6 +139,7 @@ const CartPage = async ({
                   <ToggleCartItemButton
                     userId={session?.user?.id}
                     productId={item?.id}
+                    className={"hover:scale-110"}
                   >
                     <MdDelete size={24} />
                   </ToggleCartItemButton>
@@ -166,7 +166,7 @@ const CartPage = async ({
                 </h2>
 
                 <dl className="mt-10 space-y-6 text-sm font-medium text-gray-500">
-                  <div className="flex justify-between border-t border-gray-200 pt-6 text-gray-900">
+                  <div className="flex justify-center gap-5 border-t border-gray-200 pt-6 text-gray-900">
                     <dt className="text-base">Total</dt>
                     <dd className="text-base">
                       $

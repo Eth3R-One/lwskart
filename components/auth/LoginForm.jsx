@@ -1,10 +1,10 @@
 "use client";
 
-import { login, toggleWishList } from "@/app/actions";
+import { login } from "@/app/actions";
 import { useRouter, useSearchParams } from "next/navigation";
-
 import { useState } from "react";
 import SpinnerLoader from "../SpinnerLoader";
+import { toast } from "react-toastify";
 
 const LoginForm = ({ lang }) => {
   const [error, setError] = useState("");
@@ -13,7 +13,6 @@ const LoginForm = ({ lang }) => {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const redirect = query.get("redirect");
-  const productId = query.get("productId");
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -28,16 +27,26 @@ const LoginForm = ({ lang }) => {
         setIsSubmitted(false);
       } else {
         if (redirect) {
-          router.push(`/${lang}/${redirect}?productId=${productId}`);
+          const queryParams = new URLSearchParams(query);
+
+          let redirectUrl = `/${lang}/${redirect}`;
+          if (queryParams.toString()) {
+            redirectUrl += `?${queryParams.toString()}`;
+          }
+          router.push(redirectUrl);
+          toast.success("User Logged in");
         } else {
           router.push(`/${lang}/account`);
+          toast.success("User Logged in");
         }
       }
     } catch (err) {
       setError("Invalid Credentials");
       setIsSubmitted(false);
+      toast.error("Wrong credentials!! Input carefully");
     }
   };
+
   return (
     <form onSubmit={handleLogin} autoComplete="on">
       {error && <div className="text-xl text-red-500 text-center">{error}</div>}

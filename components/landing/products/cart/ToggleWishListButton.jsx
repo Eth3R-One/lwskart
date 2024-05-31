@@ -8,6 +8,7 @@ import useWishlist from "@/hooks/useWishlist";
 import { LiaHeartSolid } from "react-icons/lia";
 import { FaRegHeart } from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const ToggleWishListButton = ({ productId, userId, className, children }) => {
   const router = useRouter();
@@ -19,7 +20,7 @@ const ToggleWishListButton = ({ productId, userId, className, children }) => {
 
   useEffect(() => {
     const status = wishlist?.some(
-      (prod) => prod.toString() == productId.toString()
+      (prod) => prod?.toString() == productId?.toString()
     );
     if (status) {
       setIsWishlisted(true);
@@ -43,15 +44,23 @@ const ToggleWishListButton = ({ productId, userId, className, children }) => {
           }
 
           setWishlist(updatedWishlist);
+          if (isWishListed) {
+            toast.info("Item removed from wishlist");
+          } else {
+            toast.success("Item added to wishlist");
+          }
           setIsWishlisted(!isWishListed);
         } else {
           console.error("Failed to update wishlist");
+          toast.error("Something went wrong");
         }
       } catch (err) {
         console.error("Error toggling wishlist:", err);
+        toast.error("Something went wrong");
       }
     } else {
       router.push(`/${lang}/login?redirect=/wish-list&productId=${productId}`);
+      toast.info("Login in first");
     }
   };
 

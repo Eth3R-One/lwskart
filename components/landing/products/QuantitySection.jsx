@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { TiTick } from "react-icons/ti";
 import { ImCancelCircle } from "react-icons/im";
 import { updateCart } from "@/app/actions";
+import { toast } from "react-toastify";
 
 const QuantitySection = ({ userId, productId }) => {
   const { cartItems, setCartItems } = useCartItems();
@@ -63,7 +64,6 @@ const QuantitySection = ({ userId, productId }) => {
   const handleQuantityUpdate = async (event) => {
     event.preventDefault();
     try {
-      console.log("quantity section -> 68");
       const res = await updateCart(userId, productId, quantity);
 
       setCartItems((prevCartItems) => {
@@ -81,8 +81,11 @@ const QuantitySection = ({ userId, productId }) => {
           return [...prevCartItems, { productId, quantity }];
         }
       });
+
+      toast.success("Quantity updated. Check cart page for more details");
     } catch (err) {
       console.log(err);
+      toast.error(err?.message ?? err);
     }
   };
   const handleQuantityReset = (event) => {
@@ -106,6 +109,8 @@ const QuantitySection = ({ userId, productId }) => {
         ];
       }
     });
+
+    toast.info("Quantity reset");
   };
 
   return (
@@ -118,7 +123,7 @@ const QuantitySection = ({ userId, productId }) => {
           -
         </button>
         <div className="h-8 w-8 text-base flex items-center justify-center">
-          {quantity}
+          {quantity > 0 ? quantity : 1}
         </div>
         <button
           onClick={handleQuantityAdd}

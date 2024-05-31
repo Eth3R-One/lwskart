@@ -1,4 +1,11 @@
-const CheckoutPage = () => {
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+
+const CheckoutPage = async ({ params: { lang } }) => {
+  const session = await auth();
+  if (!session) {
+    redirect(`/${lang}/login`);
+  }
   return (
     <div className="container grid grid-cols-12 items-start pb-16 pt-4 gap-6">
       <div className="col-span-8 border border-gray-200 p-4 rounded">

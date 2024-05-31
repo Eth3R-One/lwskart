@@ -25,9 +25,7 @@ const WishListPage = async ({
     );
     if (!isWishListed) {
       const res = await toggleWishList(session?.user?.id, productId);
-      if (res?.status == 201) {
-        userWishList = await getWishList(session?.user?.id);
-      }
+      userWishList = await getWishList(session?.user?.id);
     }
   }
 
@@ -83,12 +81,12 @@ const WishListPage = async ({
                     }
                   />
                 ) : (
-                  <a
-                    href="#"
-                    className="cursor-not-allowed px-6 py-2 text-center text-sm text-white bg-red-400 border border-red-400 rounded transition uppercase font-roboto font-medium"
+                  <button
+                    disabled
+                    className="cursor-not-allowed px-6 py-2 text-center text-sm text-white bg-red-400 border border-red-400 rounded transition uppercase font-roboto font-medium hover:scale-105"
                   >
                     add to cart
-                  </a>
+                  </button>
                 )}
 
                 <div className="text-red-600 cursor-pointer pl-5 hover:text-primary">
