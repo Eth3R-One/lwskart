@@ -4,6 +4,8 @@ import { signIn } from "@/auth";
 import { getCartItems, getProductById } from "@/database/queries";
 import cartsModel from "@/models/cart-model";
 import { productModel } from "@/models/product-model";
+import { userAddressModel } from "@/models/user-address-model";
+import { userModel } from "@/models/user-model";
 import { wishlistModel } from "@/models/wishlist-model";
 import { dbConnect } from "@/service/mongo";
 import { replaceMongoIdInObject } from "@/utils/data-utils";
@@ -46,7 +48,6 @@ export const toggleWishList = async (userId, productId) => {
     revalidatePath("/", "layout");
     return { status: 201 };
   } catch (err) {
-    console.error(err);
     return { status: 500, error: err.message };
   }
 };
@@ -93,7 +94,42 @@ export const updateCart = async (userId, productId, quantity) => {
     revalidatePath("/", "layout");
     return { status: 201 };
   } catch (err) {
-    console.error(err);
     return { status: 500, error: err?.message };
+  }
+};
+
+export const updatePhone = async (userId, phoneNo) => {
+  await dbConnect();
+  try {
+    const user = await userModel.findById(userId);
+    user.phone = phoneNo;
+    await user.save();
+    revalidatePath("/account", "layout");
+    return { message: "updated" };
+  } catch (err) {
+    return { message: err?.message };
+  }
+};
+
+export const updateAddress = async (userId, data) => {
+  try {
+    await dbConnect();
+
+    const userAddress = await userAddressModel.findOne({ userId: userId });
+    if (data?.type == "shipping") {
+      userAddress.shippingAddress = data?.address;
+      await userAddress.save();
+      revalidatePath("/account", "layout");
+
+      return { status: 200, message: "updated" };
+    } else if (data?.type == "billing") {
+      userAddress.billingAddress = data?.address;
+      await userAddress.save();
+      revalidatePath("/account", "layout");
+
+      return { status: 200, message: "updated" };
+    }
+  } catch (err) {
+    return { status: 500, message: err?.message ?? "Something went wrong" };
   }
 };
