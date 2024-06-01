@@ -1,6 +1,7 @@
 import cartsModel from "@/models/cart-model";
 import { categoryModel } from "@/models/category-model";
 import { productModel } from "@/models/product-model";
+import { userAddressModel } from "@/models/user-address-model";
 import { userModel } from "@/models/user-model";
 import { wishlistModel } from "@/models/wishlist-model";
 import { dbConnect } from "@/service/mongo";
@@ -15,7 +16,7 @@ export const getUserById = async (userId) => {
   try {
     const user = await userModel.findById(userId).lean();
     if (user) {
-      return replaceMongoIdInObject(user);
+      return replaceMongoIdInObject({ ...user, password: null });
     } else {
       throw new Error("User not found");
     }
@@ -91,7 +92,12 @@ export const getCartItems = async (userId) => {
   await dbConnect();
   try {
     const cartItems = await cartsModel.findOne({ userId: userId }).lean();
-    return replaceMongoIdInArray(cartItems?.items);
+    return replaceMongoIdInArray(
+      cartItems?.items?.map((item) => ({
+        ...item,
+        productId: item?.productId.toString(),
+      }))
+    );
   } catch (err) {
     console.log(err);
   }
@@ -99,4 +105,15 @@ export const getCartItems = async (userId) => {
 
 export const getUserAddress = async (userId) => {
   await dbConnect();
+  try {
+    const userAddress = await userAddressModel
+      .findOne({ userId: userId })
+      .lean();
+    return replaceMongoIdInObject({
+      ...userAddress,
+      userId: userAddress?.userId?.toString(),
+    });
+  } catch (err) {
+    console.log(err);
+  }
 };
