@@ -14,10 +14,10 @@ const userSchema = new Schema({
     type: String,
   },
   phone: {
-    require: false,
+    required: false,
     type: String,
   },
 });
 
 export const userModel =
-  mongoose.models.users ?? mongoose.model("users", userSchema);
+  mongoose?.models?.users ?? mongoose.model("users", userSchema);
