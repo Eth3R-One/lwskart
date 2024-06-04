@@ -8,7 +8,7 @@ const Logout = ({ lang }) => {
     <button
       onClick={() => {
         signOut({
-          callbackUrl: `http://localhost:3000/${lang}/login`,
+          callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/${lang}/login`,
         });
         toast.info("User logged out!");
       }}
