@@ -201,8 +201,6 @@ const ShippingAddressForm = ({ dictionary, user, address }) => {
           </button>
         </div>
         <div className="space-y-1 py-2">
-          {/* <h4 className="text-gray-700 font-medium">{user?.name}</h4> */}
-
           <div className="flex flex-row gap-3 border p-2 rounded-lg items-center py-2">
             <MdLocalShipping size={25} />
             {address ? (
@@ -213,15 +211,6 @@ const ShippingAddressForm = ({ dictionary, user, address }) => {
               <p className="text-red-400">You have no address added</p>
             )}
           </div>
-
-          {/* <div className="flex flex-row gap-2 items-center py-2">
-            <FaPhoneAlt />
-            {user?.phone ? (
-              <p className="text-gray-800">{user?.phone}</p>
-            ) : (
-              <p className="text-red-500">You have no phone number saved</p>
-            )}
-          </div> */}
         </div>
       </div>
       <Form open={open} setOpen={setOpen} user={user} address={address} />
