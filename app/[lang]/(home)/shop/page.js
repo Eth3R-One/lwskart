@@ -11,7 +11,10 @@ const refineSelectedCategory = (category) => {
   } else return decoded;
 };
 
-const ShopPage = async ({ params: { lang }, searchParams: { category } }) => {
+const ShopPage = async ({
+  params: { lang },
+  searchParams: { category, search },
+}) => {
   const products = await getProducts();
   return (
     <>
@@ -21,6 +24,7 @@ const ShopPage = async ({ params: { lang }, searchParams: { category } }) => {
           products={products}
           lang={lang}
           selectedCategory={refineSelectedCategory(category)}
+          searchQuery={refineSelectedCategory(search).split("+").join(" ")}
         />
       </div>
     </>
