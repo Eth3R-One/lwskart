@@ -1,5 +1,6 @@
 import cartsModel from "@/models/cart-model";
 import { categoryModel } from "@/models/category-model";
+import orderModel from "@/models/order-model";
 import { productModel } from "@/models/product-model";
 import { userAddressModel } from "@/models/user-address-model";
 import { userModel } from "@/models/user-model";
@@ -91,15 +92,28 @@ export const getWishList = async (userId) => {
 export const getCartItems = async (userId) => {
   await dbConnect();
   try {
-    const cartItems = await cartsModel.findOne({ userId: userId }).lean();
-    return replaceMongoIdInArray(
-      cartItems?.items?.map((item) => ({
-        ...item,
-        productId: item?.productId.toString(),
-      }))
-    );
+    const cart = await cartsModel.findOne({ userId }).lean();
+
+    if (cart && cart.items) {
+      const updatedCartItems = await Promise.all(
+        cart.items.map(async (item) => {
+          const prod = await productModel.findById(item.productId).lean();
+          return { ...item, product: replaceMongoIdInObject(prod) };
+        })
+      );
+
+      return replaceMongoIdInArray(
+        updatedCartItems.map((item) => ({
+          ...item,
+          productId: item.productId.toString(),
+        }))
+      );
+    }
+
+    return [];
   } catch (err) {
     console.log(err);
+    return [];
   }
 };
 
@@ -113,6 +127,22 @@ export const getUserAddress = async (userId) => {
       ...userAddress,
       userId: userAddress?.userId?.toString(),
     });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getOrderHistory = async (userId) => {
+  try {
+    await dbConnect();
+
+    const orders = await orderModel.find({ userId }).lean();
+
+    if (orders.length > 0) {
+      return replaceMongoIdInArray(orders);
+    } else {
+      return [];
+    }
   } catch (err) {
     console.log(err);
   }
