@@ -3,9 +3,7 @@ import ProductCard from "./ProductCard";
 
 const TopNewArrivalSection = async ({ dictionary }) => {
   const products = await getNewArrival();
-  console.log("-------------------------------------------------------");
-  console.log(products);
-  console.log("-------------------------------------------------------");
+
   return (
     <div className="container pb-16">
       <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">

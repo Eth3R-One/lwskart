@@ -68,11 +68,9 @@ export const updateCart = async (userId, productId, quantity) => {
       );
 
       if (productIndex > -1) {
-        // Product exists in cart, update quantity
         if (quantity > 0) {
           cart.items[productIndex].quantity = quantity;
         } else {
-          // Remove product if quantity is 0
           cart.items.splice(productIndex, 1);
         }
       } else {
@@ -85,7 +83,6 @@ export const updateCart = async (userId, productId, quantity) => {
       }
       const res = await cart.save();
     } else {
-      // Cart does not exist, create a new one
       const newCart = await cartsModel.create({
         userId,
         items: [
@@ -100,7 +97,6 @@ export const updateCart = async (userId, productId, quantity) => {
       const res = await newCart.save();
     }
 
-    // revalidate the path to update the UI
     revalidatePath("/", "layout");
     return { status: 200 };
   } catch (err) {

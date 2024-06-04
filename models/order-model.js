@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
 
-// Schema for ordered items
 const orderItemSchema = new Schema({
   productId: {
     type: Schema.Types.ObjectId,
@@ -31,7 +30,6 @@ const orderItemSchema = new Schema({
   },
 });
 
-// Main order schema
 const orderSchema = new Schema(
   {
     userId: {
