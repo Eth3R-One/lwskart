@@ -126,7 +126,12 @@ export const updateAddress = async (userId, data) => {
   try {
     await dbConnect();
 
-    const userAddress = await userAddressModel.findOne({ userId: userId });
+    let userAddress;
+    userAddress = await userAddressModel.findOne({ userId: userId });
+
+    if (!userAddress) {
+      userAddress = await userAddressModel.create({ userId });
+    }
     if (data?.type == "shipping") {
       userAddress.shippingAddress = data?.address;
       await userAddress.save();
@@ -210,16 +215,12 @@ export const addOrder = async (userId, formData, paymentDetails) => {
     };
 
     const order = await orderModel.create(orderObject);
-    // console.log(order);
 
     const cart = await cartsModel.findOne({ userId });
-
-    // console.log(cart?.items?.length);
 
     cart.items.splice(0, cart?.items?.length);
 
     await cart.save();
-    // console.log(cart);
     await updateQuantityInProduct(order);
 
     return { status: 200, message: "added" };
