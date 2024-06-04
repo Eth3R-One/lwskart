@@ -11,6 +11,7 @@ import { auth } from "@/auth";
 import ToggleCartItemButton from "./cart/ToggleCartItemButton";
 import QuantitySection from "./QuantitySection";
 import { FaCartShopping } from "react-icons/fa6";
+import SocialShare from "../SocialShare";
 
 const ProductDetails = async ({ product, lang }) => {
   const session = await auth();
@@ -144,7 +145,8 @@ const ProductDetails = async ({ product, lang }) => {
           </div>
 
           <div className="flex gap-3 mt-4">
-            <p className="text-red-500">SOCIAL SHARE</p>
+            <SocialShare />
+            {/* <p className="text-red-500">SOCIAL SHARE</p>
             <a
               href="#"
               className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
@@ -162,7 +164,7 @@ const ProductDetails = async ({ product, lang }) => {
               className="text-gray-400 hover:text-gray-500 h-8 w-8 rounded-full border border-gray-300 flex items-center justify-center"
             >
               <i className="fa-brands fa-instagram"></i>
-            </a>
+            </a> */}
           </div>
         </div>
       </div>
