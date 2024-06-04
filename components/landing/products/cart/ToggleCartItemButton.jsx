@@ -85,19 +85,19 @@ const ToggleCartItemButton = ({ productId, userId, className, children }) => {
           : 0
       );
 
-      if (res.status === 201) {
+      if (res.status === 200) {
         const listOfWishlist = wishlist ?? [];
         const wishlistIndex = listOfWishlist.indexOf(productId);
         if (wishlistIndex > -1) {
           const response = await toggleWishList(userId, productId);
         }
+
+        setCartItems(updatedCartItems);
+
+        added
+          ? toast.success("Item added to cart")
+          : toast.info("Item removed from cart");
       }
-
-      setCartItems(updatedCartItems);
-
-      added
-        ? toast.success("Item added to cart")
-        : toast.info("Item removed from cart");
     } catch (err) {
       console.error("Failed to update cart items in DB:", err);
       toast.error(err?.message ?? err);

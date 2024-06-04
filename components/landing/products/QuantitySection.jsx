@@ -82,7 +82,11 @@ const QuantitySection = ({ userId, productId }) => {
         }
       });
 
-      toast.success("Quantity updated. Check cart page for more details");
+      if (res.status == 200) {
+        toast.success("Quantity updated");
+      } else {
+        toast.error(res?.message ?? "Something went wrong");
+      }
     } catch (err) {
       console.log(err);
       toast.error(err?.message ?? err);
