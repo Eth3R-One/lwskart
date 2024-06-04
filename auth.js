@@ -13,6 +13,7 @@ export const {
   signIn,
   signOut,
 } = NextAuth({
+  trustHost: true,
   adapter: MongoDBAdapter(mongoClientPromise, {
     databaseName: process.env.ENVIRONMENT,
   }),
@@ -55,12 +56,21 @@ export const {
     }),
   ],
   callbacks: {
-    async jwt({ token, user }) {
-      if (user) token.id = user.id;
+    async jwt({ token, user, account, trigger, session }) {
+      if (trigger == "update") {
+        return { ...token, ...session };
+      }
+      if (user) {
+        return {
+          ...token,
+          ...user,
+          ...account,
+        };
+      }
+
       return token;
     },
     async session({ session, token }) {
-      // console.log(token);
       session.user.id = token?.id;
       session.user.image = token?.image;
       session.user.phone = token?.phone;
