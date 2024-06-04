@@ -3,12 +3,14 @@
 import { signIn } from "@/auth";
 import { getCartItems, getProductById } from "@/database/queries";
 import cartsModel from "@/models/cart-model";
+import orderModel from "@/models/order-model";
 import { productModel } from "@/models/product-model";
 import { userAddressModel } from "@/models/user-address-model";
 import { userModel } from "@/models/user-model";
 import { wishlistModel } from "@/models/wishlist-model";
 import { dbConnect } from "@/service/mongo";
 import { replaceMongoIdInObject } from "@/utils/data-utils";
+import { getDiscountPrice } from "@/utils/discount-price-utils";
 import { revalidatePath } from "next/cache";
 
 export async function login(formData) {
@@ -78,6 +80,7 @@ export const updateCart = async (userId, productId, quantity) => {
           ...product,
           productId: productId.toString(),
           quantity,
+          productQuantity: product?.quantity,
         });
       }
       const res = await cart.save();
@@ -85,15 +88,23 @@ export const updateCart = async (userId, productId, quantity) => {
       // Cart does not exist, create a new one
       const newCart = await cartsModel.create({
         userId,
-        items: [{ ...product, productId: productId.toString(), quantity }],
+        items: [
+          {
+            ...product,
+            productId: productId.toString(),
+            quantity,
+            productQuantity: product?.quantity,
+          },
+        ],
       });
       const res = await newCart.save();
     }
 
     // revalidate the path to update the UI
     revalidatePath("/", "layout");
-    return { status: 201 };
+    return { status: 200 };
   } catch (err) {
+    console.log(err);
     return { status: 500, error: err?.message };
   }
 };
@@ -131,5 +142,103 @@ export const updateAddress = async (userId, data) => {
     }
   } catch (err) {
     return { status: 500, message: err?.message ?? "Something went wrong" };
+  }
+};
+
+export const addOrder = async (userId, formData, paymentDetails) => {
+  try {
+    await dbConnect();
+
+    const shippingAddress = {};
+    const billingAddress = {};
+
+    const name = formData.get("fname") + " " + formData.get("lname");
+    const phone = formData.get("phone");
+    const email = formData.get("email");
+
+    billingAddress.street = formData.get("billingStreetAddress");
+    billingAddress.city = formData.get("billingCity");
+    billingAddress.country = formData.get("billingCountry");
+
+    shippingAddress.street = formData.get("shippingStreetAddress");
+    shippingAddress.city = formData.get("shippingCity");
+    shippingAddress.country = formData.get("shippingCountry");
+
+    let paymentMethod;
+    let paymentStatus;
+    const paymentDetailsForDB = {};
+
+    const paymentType = paymentDetails?.paymentType;
+
+    if (paymentType == "card") {
+      paymentMethod = "Card";
+      paymentStatus = "Paid";
+      paymentDetailsForDB.cardNumber = paymentDetails?.cardNumber;
+      paymentDetailsForDB.nameOnCard = paymentDetails?.nameOnCard;
+      paymentDetailsForDB.expireDate = paymentDetails?.expireDate;
+      paymentDetailsForDB.cvv = paymentDetails?.cvv;
+    }
+    if (paymentType == "cash") {
+      paymentMethod = "Cash-on-Delivery";
+      paymentStatus = "Pending";
+    }
+
+    const cartDetails = await getCartItems(userId);
+    let totalAmount = 0;
+
+    for (let i = 0; i < cartDetails?.length; i++) {
+      const cart = cartDetails[i];
+      totalAmount +=
+        cart?.quantity *
+        getDiscountPrice(
+          cart?.product?.price,
+          cart?.product?.discountPercentage
+        );
+    }
+
+    const orderObject = {
+      userId,
+      name,
+      phone,
+      items: cartDetails,
+      totalAmount,
+      paymentStatus,
+      paymentMethod,
+      paymentDetails,
+      billingAddress,
+      shippingAddress,
+    };
+
+    const order = await orderModel.create(orderObject);
+    // console.log(order);
+
+    const cart = await cartsModel.findOne({ userId });
+
+    // console.log(cart?.items?.length);
+
+    cart.items.splice(0, cart?.items?.length);
+
+    await cart.save();
+    // console.log(cart);
+    await updateQuantityInProduct(order);
+
+    return { status: 200, message: "added" };
+  } catch (err) {
+    console.log(err);
+    return { status: 500, message: err?.message ?? "Something went wrong" };
+  }
+};
+
+const updateQuantityInProduct = async (order) => {
+  try {
+    await dbConnect();
+    for (let i = 0; i < order?.items.length; i++) {
+      const item = order?.items[i];
+      const productToBeUpdate = await productModel.findById(item?.productId);
+      productToBeUpdate.quantity = productToBeUpdate.quantity - item?.quantity;
+      await productToBeUpdate.save();
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
