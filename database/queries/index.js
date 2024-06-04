@@ -147,3 +147,51 @@ export const getOrderHistory = async (userId) => {
     console.log(err);
   }
 };
+
+export const getNewArrival = async () => {
+  try {
+    await dbConnect();
+    const products = await getProducts();
+
+    return products
+      .sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt))
+      ?.slice(0, 12);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getTrendingProducts = async () => {
+  try {
+    await dbConnect();
+    const products = await getProducts();
+    return products
+      .sort((a, b) => {
+        const aTrendScore = a.rating * a.feedBack.reviews;
+        const bTrendScore = b.rating * b.feedBack.reviews;
+        return bTrendScore - aTrendScore;
+      })
+      .slice(0, 8);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const getRelatedProducts = async (currentProduct) => {
+  try {
+    await dbConnect();
+    const { category, id, price } = currentProduct;
+    const products = await getProducts();
+    let relatedProducts = products.filter(
+      (product) =>
+        product.category?.toString() === category.toString() && product.id != id
+    );
+
+    return relatedProducts.slice(
+      0,
+      relatedProducts?.length > 8 ? 8 : relatedProducts?.length
+    );
+  } catch (err) {
+    console.log(err);
+  }
+};

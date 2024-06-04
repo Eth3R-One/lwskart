@@ -11,7 +11,7 @@ const ProductPage = async ({ params: { productId, lang } }) => {
     return (
       <>
         <ProductDetails lang={lang} product={product} />
-        <RelatedProducts />
+        <RelatedProducts product={product} />
       </>
     );
   } else {

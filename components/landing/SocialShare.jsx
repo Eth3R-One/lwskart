@@ -14,7 +14,6 @@ import {
 const SocialShare = () => {
   const pathname = usePathname();
   const url = `${process.env.NEXT_PUBLIC_BASE_URL}${pathname}`;
-  console.log(url);
 
   return (
     <div className=" flex flex-row items-center justify-center ">

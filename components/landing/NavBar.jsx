@@ -11,7 +11,6 @@ const NavBar = async ({ lang, dictionary, showLogin }) => {
   const session = await auth();
 
   const allCategories = await getCategories();
-  console.log(allCategories);
 
   return (
     <nav className="bg-gray-800">
