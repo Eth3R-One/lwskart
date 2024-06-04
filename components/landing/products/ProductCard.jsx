@@ -15,6 +15,7 @@ import ToggleCartItemButton from "./cart/ToggleCartItemButton";
 
 const ProductCard = async ({ product, lang }) => {
   const session = await auth();
+  const user = await getUserByEmail(session?.user?.email);
 
   return (
     <div className="bg-white shadow rounded group">
@@ -37,10 +38,7 @@ const ProductCard = async ({ product, lang }) => {
             <FaMagnifyingGlass />
           </CustomLink>
 
-          <AddToWishListButton
-            userId={session?.user?.id}
-            productId={product?.id}
-          />
+          <AddToWishListButton userId={user?.id} productId={product?.id} />
         </div>
       </div>
       <div className="pt-4 pb-3 px-4">
@@ -92,7 +90,7 @@ const ProductCard = async ({ product, lang }) => {
       {product?.quantity ? (
         <ToggleCartItemButton
           productId={product?.id}
-          userId={session?.user?.id}
+          userId={user?.id}
           className="block w-full bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase gap-2 hover:bg-transparent hover:text-primary transition"
         />
       ) : (

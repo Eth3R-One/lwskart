@@ -16,11 +16,7 @@ export const getUserById = async (userId) => {
   await dbConnect();
   try {
     const user = await userModel.findById(userId).lean();
-    if (user) {
-      return replaceMongoIdInObject({ ...user, password: null });
-    } else {
-      throw new Error("User not found");
-    }
+    return replaceMongoIdInObject({ ...user, password: null });
   } catch (err) {
     console.log(err);
     throw err;

@@ -11,6 +11,15 @@ const refineSelectedCategory = (category) => {
   } else return decoded;
 };
 
+export const metadata = {
+  title: "Shop | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [`${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Shop | LWSKart`],
+  },
+};
+
 const ShopPage = async ({
   params: { lang },
   searchParams: { category, search },

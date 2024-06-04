@@ -10,7 +10,7 @@ import useOrderStatus from "@/hooks/useOrderStatus";
 import useWishlist from "@/hooks/useWishlist";
 import { useEffect } from "react";
 import useCartItems from "@/hooks/useCartItems";
-const CartProductDetails = ({ product, item, lang, session }) => {
+const CartProductDetails = ({ product, item, lang, user }) => {
   const { orderStatus, setOrderStatus } = useOrderStatus();
 
   return (
@@ -78,7 +78,7 @@ const CartProductDetails = ({ product, item, lang, session }) => {
       </div>
 
       <div className="col-span-3 gap-y-2 flex flex-col items-center justify-center">
-        <QuantitySection userId={session?.user?.id} productId={item.id} />
+        <QuantitySection userId={user?.id} productId={item.id} />
         {item?.quantity > product?.quantity && (
           <p className="px-3 text-xs rounded-md bg-yellow-400 border border-red-400 text-black">
             quantity greater than stock
@@ -106,7 +106,7 @@ const CartProductDetails = ({ product, item, lang, session }) => {
       <div className="col-span-1 flex justify-center items-center">
         <div className="text-gray-600 cursor-pointer hover:text-primary">
           <ToggleCartItemButton
-            userId={session?.user?.id}
+            userId={user?.id}
             productId={item?.id}
             className={"hover:scale-110"}
           >

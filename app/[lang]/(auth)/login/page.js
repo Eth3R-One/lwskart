@@ -5,6 +5,17 @@ import { getDictionary } from "../../(home)/dictionaries";
 import LoginForm from "@/components/auth/LoginForm";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Login | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Login | LWSKart`,
+    ],
+  },
+};
+
 const LoginPage = async ({ params: { lang } }) => {
   const dictionary = await getDictionary(lang);
   const session = await auth();

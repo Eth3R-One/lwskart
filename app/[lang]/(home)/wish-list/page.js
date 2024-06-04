@@ -10,6 +10,17 @@ import { toggleWishList } from "@/app/actions";
 import { revalidatePath } from "next/cache";
 import ToggleCartItemButton from "@/components/landing/products/cart/ToggleCartItemButton";
 
+export const metadata = {
+  title: "Wish List | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Wish List | LWSKart`,
+    ],
+  },
+};
+
 const WishListPage = async ({
   params: { lang },
   searchParams: { productId },
@@ -18,14 +29,15 @@ const WishListPage = async ({
   if (!session?.user) {
     redirect("/login");
   }
-  let userWishList = await getWishList(session?.user?.id);
+  const user = await getUserByEmail(session?.user?.email);
+  let userWishList = await getWishList(user?.id);
   if (productId) {
     const isWishListed = userWishList?.products?.some(
       (product) => product?._id.toString() === productId.toString()
     );
     if (!isWishListed) {
-      const res = await toggleWishList(session?.user?.id, productId);
-      userWishList = await getWishList(session?.user?.id);
+      const res = await toggleWishList(user?.id, productId);
+      userWishList = await getWishList(user?.id);
     }
   }
 
@@ -75,7 +87,7 @@ const WishListPage = async ({
                 {product?.quantity ? (
                   <ToggleCartItemButton
                     productId={product?.id}
-                    userId={session?.user?.id}
+                    userId={user?.id}
                     className={
                       "px-6 py-2 text-center text-sm text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium"
                     }
@@ -91,7 +103,7 @@ const WishListPage = async ({
 
                 <div className="text-red-600 cursor-pointer pl-5 hover:text-primary">
                   <AddToWishListButton
-                    userId={session?.user?.id}
+                    userId={user?.id}
                     productId={product?.id}
                   />
                 </div>

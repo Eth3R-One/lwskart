@@ -5,6 +5,31 @@ import { getProductById } from "@/database/queries";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+export async function generateMetadata({ params, searchParams }, parent) {
+  // read route params
+  const productId = params.productId;
+
+  // fetch data
+  const product = await getProductById(productId);
+
+  // optionally access and extend (rather than replace) parent metadata
+  const previousImages = (await parent).openGraph?.images || [];
+  const title = product
+    ? product?.title + " | " + product?.category + " | LWSKart"
+    : "404 | LWSKart";
+  return {
+    title: title,
+    description: product?.description,
+    openGraph: {
+      images: [
+        product?.thumbnail ??
+          `${process.env.NEXT_PUBLIC_HOST}/api/og?title=Not-Found`,
+        ...previousImages,
+      ],
+    },
+  };
+}
+
 const ProductPage = async ({ params: { productId, lang } }) => {
   const product = await getProductById(productId);
   if (product) {

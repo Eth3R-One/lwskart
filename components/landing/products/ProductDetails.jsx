@@ -12,9 +12,11 @@ import ToggleCartItemButton from "./cart/ToggleCartItemButton";
 import QuantitySection from "./QuantitySection";
 import { FaCartShopping } from "react-icons/fa6";
 import SocialShare from "../SocialShare";
+import { getUserByEmail } from "@/database/queries";
 
 const ProductDetails = async ({ product, lang }) => {
   const session = await auth();
+  const user = await getUserByEmail(session?.user?.email);
   return (
     <>
       <div className="container grid grid-cols-2 gap-6 ">
@@ -118,16 +120,13 @@ const ProductDetails = async ({ product, lang }) => {
 
           <div className="mt-4 items-center">
             <h3 className="text-sm text-gray-800 uppercase mb-1">Quantity</h3>
-            <QuantitySection
-              userId={session?.user?.id}
-              productId={product?.id}
-            />
+            <QuantitySection userId={user?.id} productId={product?.id} />
           </div>
           <div className="mt-6 flex gap-3 border-b border-gray-200 pb-5 pt-5">
             {product?.quantity > 0 ? (
               <ToggleCartItemButton
                 productId={product?.id}
-                userId={session?.user?.id}
+                userId={user?.id}
                 className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
               />
             ) : (
@@ -137,7 +136,7 @@ const ProductDetails = async ({ product, lang }) => {
             )}
             <ToggleWishListButton
               productId={product?.id}
-              userId={session?.user?.id}
+              userId={user?.id}
               className="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase flex items-center gap-2 hover:bg-transparent hover:text-primary transition"
             >
               Add to Wishlist || Remove

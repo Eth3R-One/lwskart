@@ -7,10 +7,22 @@ import BillingAddressForm from "@/components/auth/profile/BillingAddressForm";
 import {
   getOrderHistory,
   getUserAddress,
+  getUserByEmail,
   getUserById,
 } from "@/database/queries";
 import Link from "next/link";
 import CustomLink from "@/components/CustomLink";
+
+export const metadata = {
+  title: "Account | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Account | LWSKart`,
+    ],
+  },
+};
 
 const AccountPage = async ({ params: { lang } }) => {
   const dictionary = await getDictionary(lang);
@@ -18,12 +30,11 @@ const AccountPage = async ({ params: { lang } }) => {
   if (!session?.user) {
     redirect(`/${lang}/login`);
   }
+  const user = await getUserByEmail(session?.user?.email);
 
-  const user = await getUserById(session?.user?.id);
+  const address = await getUserAddress(user?.id);
 
-  const address = await getUserAddress(session?.user?.id);
-
-  const orders = await getOrderHistory(session?.user?.id);
+  const orders = await getOrderHistory(user?.id);
 
   const formatDate = (orderDate) => {
     const date = new Date(orderDate);

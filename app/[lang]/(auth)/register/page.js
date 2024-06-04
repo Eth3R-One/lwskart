@@ -4,6 +4,17 @@ import RegisterForm from "@/components/auth/RegisterForm";
 import SocialLogings from "@/components/auth/SocialLogings";
 import { redirect } from "next/navigation";
 
+export const metadata = {
+  title: "Register | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Register | LWSKart`,
+    ],
+  },
+};
+
 const RegistrationPage = async ({ params: { lang } }) => {
   const session = await auth();
   if (session?.user) {

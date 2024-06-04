@@ -1,5 +1,16 @@
 import Link from "next/link";
 
+export const metadata = {
+  title: "Not Found | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Not-Found | LWSKart`,
+    ],
+  },
+};
+
 export default function NotFound({ params }) {
   return (
     <div className="flex flex-col items-center py-10">

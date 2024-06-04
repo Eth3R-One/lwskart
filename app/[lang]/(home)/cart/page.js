@@ -5,7 +5,7 @@ import Image from "next/image";
 import { updateCart } from "@/app/actions";
 import { auth } from "@/auth";
 import QuantitySection from "@/components/landing/products/QuantitySection";
-import { getCartItems } from "@/database/queries";
+import { getCartItems, getUserByEmail } from "@/database/queries";
 import convertNumberToBN from "@/utils/bn-number-utils";
 import { getDiscountPrice } from "@/utils/discount-price-utils";
 
@@ -19,6 +19,15 @@ import { ToastMessage } from "@/utils/toast";
 import CartProductCard from "@/components/landing/products/cart/CartProductCard";
 import CartOrderSummary from "@/components/landing/products/cart/CartOrderSummary";
 
+export const metadata = {
+  title: "Cart | LWSKart",
+  description:
+    "LWSKart is an app that shows various products with various categories. Buy your desired products",
+  openGraph: {
+    images: [`${process.env.NEXT_PUBLIC_BASE_URL}/api/og?title=Cart | LWSKart`],
+  },
+};
+
 const CartPage = async ({
   params: { lang },
   searchParams: { productId, quantity },
@@ -28,11 +37,13 @@ const CartPage = async ({
     redirect(`/${lang}/login`);
   }
 
-  let cartItems = await getCartItems(session?.user?.id);
+  const user = await getUserByEmail(session?.user?.email);
+
+  let cartItems = await getCartItems(user?.id);
   let added;
 
   if (productId) {
-    added = await updateCart(session?.user?.id, productId, quantity ?? 1);
+    added = await updateCart(user?.id, productId, quantity ?? 1);
     redirect(`/${lang}/cart/`);
   }
 
@@ -54,7 +65,7 @@ const CartPage = async ({
               item={item}
               key={item?.id}
               lang={lang}
-              session={session}
+              user={user}
               added={added}
             />
           ))
