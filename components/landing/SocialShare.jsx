@@ -13,7 +13,8 @@ import {
 
 const SocialShare = () => {
   const pathname = usePathname();
-  const url = `${process.env.NEXT_PUBLIC_HOST}/${pathname}`;
+  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${pathname}`;
+
   return (
     <div className=" flex flex-row items-center justify-center ">
       <div className="flex gap-2  text-gray-600 cursor-pointer hover:text-[#0E79F6]">
