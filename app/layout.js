@@ -14,6 +14,7 @@ import CartItemsProvider from "@/providers/CartItemsProvider";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import OrderStatusProvider from "@/providers/OrderStatusProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -39,7 +40,9 @@ export default function RootLayout({ children }) {
         />
         <SessionProvider>
           <WishlistProvider>
-            <CartItemsProvider>{children}</CartItemsProvider>
+            <CartItemsProvider>
+              <OrderStatusProvider>{children}</OrderStatusProvider>
+            </CartItemsProvider>
           </WishlistProvider>
         </SessionProvider>
       </body>
