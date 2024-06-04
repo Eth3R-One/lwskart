@@ -43,7 +43,7 @@ export const {
               throw new Error("Email or password mismatch");
             }
           } else {
-            throw new Error("User not found");
+            // throw new Error("User not found");
           }
         } catch (error) {
           throw error;

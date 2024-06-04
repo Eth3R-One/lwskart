@@ -30,7 +30,7 @@ export const getUserByEmail = async (userEmail) => {
     if (user) {
       return replaceMongoIdInObject(user);
     } else {
-      throw new Error("User not found");
+      // throw new Error("User not found");
     }
   } catch (err) {
     throw err;
